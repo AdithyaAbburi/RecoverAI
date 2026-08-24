@@ -10,10 +10,10 @@ RecoverAI was evaluated on a reproducible batch of 1,000 synthetic transaction f
 
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Static Mapping) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
-| Transactions Recovered (Count) | 321 / 1,000 | 515 / 1,000 | 660 / 1,000 |
-| Transaction Recovery Rate | 32.10% | 51.50% | 66.00% |
+| Transactions Successfully Recovered | 321 / 1000 | 515 / 1000 | 660 / 1000 |
+| Transaction Recovery Rate | 32.1% | 51.5% | 66.0% |
 | Total Revenue Recovered | INR 4,292,057.07 | INR 6,815,233.05 | INR 8,647,258.31 |
-| Revenue Recovery Rate (Financial) | 29.30% | 46.53% | 59.00% |
+| Revenue Recovery Rate | 29.30% | 46.53% | 59.00% |
 | Financial Uplift vs. Baseline | — | +17.22% | +29.70% (INR 4,355,201.24 Saved) |
 | Financial Uplift vs. Rules-Only | — | — | +12.48% (INR 1,832,025.26 Saved) |
 | Policy Violation Rate | 0.0% | 0.0% | 0.0% (100% Compliant) |
