@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=sqlite:////app/recoverai.db
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=deepseek-coder:6.7b
+      - HOST=0.0.0.0
+      - PORT=8000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  dashboard:
+    build: .
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=sqlite:////app/recoverai.db
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+      - OLLAMA_MODEL=deepseek-coder:6.7b
+    command: ["streamlit", "run", "dashboard/app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      - backend

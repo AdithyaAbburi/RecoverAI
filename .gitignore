@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Databases
+*.db
+*.sqlite
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Streamlit
+.streamlit/
+
+# Output data
+data/generated/*
+data/evaluation/*
+!data/generated/.gitkeep
+!data/evaluation/.gitkeep
