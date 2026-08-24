@@ -10,13 +10,16 @@ RecoverAI was evaluated on a reproducible batch of 1,000 synthetic transaction f
 
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Static Mapping) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
-| Transactions Recovered | 321 (32.1%) | 515 (51.5%) | 660 (66.0%) |
+| Transactions Recovered (Count) | 321 / 1,000 | 515 / 1,000 | 660 / 1,000 |
+| Transaction Recovery Rate | 32.10% | 51.50% | 66.00% |
 | Total Revenue Recovered | INR 4,292,057.07 | INR 6,815,233.05 | INR 8,647,258.31 |
-| Recovery Rate (%) | 29.30% | 46.53% | 59.00% |
+| Revenue Recovery Rate (Financial) | 29.30% | 46.53% | 59.00% |
 | Financial Uplift vs. Baseline | — | +17.22% | +29.70% (INR 4,355,201.24 Saved) |
 | Financial Uplift vs. Rules-Only | — | — | +12.48% (INR 1,832,025.26 Saved) |
 | Policy Violation Rate | 0.0% | 0.0% | 0.0% (100% Compliant) |
 | Stopping Rule Compliance | 100.0% | 100.0% | 100.0% (MAX_ATTEMPTS=2 Enforced) |
+
+*Note: The transaction recovery rate represents the percentage of transactions successfully resolved, while the revenue recovery rate represents the percentage of financial value recovered from the total revenue at risk (INR 14,648,500.39).*
 
 ---
 
@@ -123,6 +126,13 @@ python scripts/run_batch.py --limit 1000 --llm-limit 2
 # 3. Print the final metrics summary
 python scripts/evaluate.py
 ```
+
+### Evaluation Performance Optimization (--llm-limit)
+Running LLM inference locally on standard CPU hardware takes approximately 30-45 seconds per transaction. Processing a batch of 1,000 transactions entirely through the LLM would require over 10 hours. 
+
+To support quick evaluation and verification, we run the batch script with `--llm-limit 2`. This performs active LLM-based root-cause diagnosis on the first 2 transactions (demonstrating the prompt, model reasoning, and structured output parsing in the audit logs) and automatically falls back to the deterministic ERV optimizer for the remaining 998 transactions.
+
+If you are running Ollama with GPU acceleration, you can scale the LLM limit by increasing the parameter (e.g., `--llm-limit 100` or `--llm-limit 1000`).
 
 ### 5. Launch the Streamlit Dashboard Control Room
 Inspect interactive charts, recovery metric breakdowns, and detailed audit timelines:
