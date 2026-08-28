@@ -10,7 +10,8 @@ def log_audit(
     policy_result: str = None,
     tool_result: str = None,
     amount_recovered: float = 0.0,
-    reason: str = None
+    reason: str = None,
+    latency_ms: float = 0.0
 ) -> AuditLog:
     """
     Log a record to the audit_logs table for audit trail tracking.
@@ -23,7 +24,8 @@ def log_audit(
         policy_result=policy_result,
         tool_result=tool_result,
         amount_recovered=amount_recovered,
-        reason=reason
+        reason=reason,
+        latency_ms=latency_ms
     )
     db.add(audit)
     db.commit()

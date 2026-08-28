@@ -54,5 +54,6 @@ class AuditLog(Base):
     tool_result = Column(String, nullable=True) # e.g., 'SUCCESS', 'FAILURE'
     amount_recovered = Column(Float, default=0.0)
     reason = Column(String, nullable=True)
+    latency_ms = Column(Float, default=0.0)
 
     transaction = relationship("Transaction", back_populates="audit_logs")

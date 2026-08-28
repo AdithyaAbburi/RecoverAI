@@ -1,3 +1,4 @@
+import time
 from sqlalchemy.orm import Session
 from app.db.models import Transaction, Customer, Invoice, AuditLog
 from app.risk.risk_engine import calculate_risk_score
@@ -127,18 +128,24 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
             break
 
         # --- STEP 1: RISK ENGINE ---
+        start_time = time.perf_counter()
         risk_result = calculate_risk_score(transaction, customer, invoice)
+        risk_latency = (time.perf_counter() - start_time) * 1000.0
+
         log_audit(
             db=db,
             transaction_id=transaction_id,
             stage="risk_evaluation",
-            reason=f"Risk Score: {risk_result['risk_score']} ({risk_result['risk_level']}). Attempts count: {attempts_count}."
+            reason=f"Risk Score: {risk_result['risk_score']} ({risk_result['risk_level']}). Attempts count: {attempts_count}.",
+            latency_ms=risk_latency
         )
 
         success_rate = customer.previous_payment_success_rate if customer else 0.85
         ltv = customer.lifetime_value if customer else 0.0
 
         # --- STEP 2: DIAGNOSIS & RE-CALCULATING ERVs ---
+        start_time = time.perf_counter()
+        
         # Build attempts history context
         history_logs = db.query(AuditLog).filter(
             AuditLog.transaction_id == transaction_id,
@@ -205,23 +212,30 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
                 reason = f"ERV optimizer selected action with highest Expected Net Recovery (₹{erv_table[recommended_action]['expected_net']:,.2f}) based on cause: {root_cause}."
                 why_not_alternatives = "Other actions have lower expected net recovery or are blocked by safety policies."
 
+        diag_latency = (time.perf_counter() - start_time) * 1000.0
+
         log_audit(
             db=db,
             transaction_id=transaction_id,
             stage="root_cause_analysis",
             agent_action=recommended_action,
-            reason=f"Diagnosed cause: {root_cause}. Reason: {reason} | Alternatives reasoning: {why_not_alternatives}"
+            reason=f"Diagnosed cause: {root_cause}. Reason: {reason} | Alternatives reasoning: {why_not_alternatives}",
+            latency_ms=diag_latency
         )
 
         # --- STEP 3: POLICY GUARDRAILS ---
+        start_time = time.perf_counter()
         policy = check_policy(recommended_action, transaction, customer, attempts_count=attempts_count)
+        policy_latency = (time.perf_counter() - start_time) * 1000.0
+
         log_audit(
             db=db,
             transaction_id=transaction_id,
             stage="policy_guardrail",
             agent_action=recommended_action,
             policy_result=policy["result"],
-            reason=policy["reason"]
+            reason=policy["reason"],
+            latency_ms=policy_latency
         )
 
         # Enforce policy checks
@@ -232,7 +246,20 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
             final_action = "stop_recovery"
 
         # --- STEP 4: BOUNDED EXECUTION ---
+        start_time = time.perf_counter()
         execution_result = execute_tool(final_action, transaction_id, db, seed)
+        exec_latency = (time.perf_counter() - start_time) * 1000.0
+
+        log_audit(
+            db=db,
+            transaction_id=transaction_id,
+            stage="execution",
+            agent_action=final_action,
+            tool_result=execution_result["status"],
+            amount_recovered=execution_result["amount_recovered"],
+            reason=execution_result["description"],
+            latency_ms=exec_latency
+        )
         
         last_res = {
             "transaction_id": transaction_id,
@@ -258,6 +285,7 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
     db.refresh(transaction)
     if transaction.status.upper() == "FAILED" and last_res and last_res["final_action"] not in ["escalate_to_human", "stop_recovery"]:
         # Execute terminal safety escalation
+        start_time = time.perf_counter()
         log_audit(
             db=db,
             transaction_id=transaction_id,
@@ -267,6 +295,19 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
             reason="Automated recovery attempts exhausted (MAX_ATTEMPTS=2). Triggering safety escalation."
         )
         execution_result = execute_tool("escalate_to_human", transaction_id, db, seed)
+        escalation_latency = (time.perf_counter() - start_time) * 1000.0
+
+        log_audit(
+            db=db,
+            transaction_id=transaction_id,
+            stage="execution",
+            agent_action="escalate_to_human",
+            tool_result=execution_result["status"],
+            amount_recovered=execution_result["amount_recovered"],
+            reason=execution_result["description"],
+            latency_ms=escalation_latency
+        )
+
         last_res = {
             "transaction_id": transaction_id,
             "risk_score": last_res["risk_score"],
