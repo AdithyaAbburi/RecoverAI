@@ -279,7 +279,7 @@ if not db_df.empty:
     if search_tx:
         filtered_df = filtered_df[filtered_df["transaction_id"].str.contains(search_tx, case=False)]
         
-    st.dataframe(filtered_df.head(100), use_container_width=True)
+    st.dataframe(filtered_df.head(100))
     
     # Selection details
     st.markdown("### AI Decision Trace for Selected Transaction")
