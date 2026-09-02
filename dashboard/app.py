@@ -183,7 +183,7 @@ with col_fun1:
 
 with col_fun2:
     st.markdown("#### Safety & Stopping Rule Enforcement")
-    st.success("✔ **MAX_ATTEMPTS = 2** Strictly Enforced across all transactions.")
+    st.success("**MAX_ATTEMPTS = 2** Strictly Enforced across all transactions.")
     st.markdown("""
     - **Attempt 1**: Executed under ERV Net Value Maximization  
     - **Attempt 2**: Executed under alternative candidate ranking  
