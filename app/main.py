@@ -9,7 +9,7 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="RecoverAI API",
-    description="Autonomous Revenue Recovery API for Razorpay AI Buildathon (Track 03)",
+    description="Autonomous Revenue Recovery API for Enterprise Payment Operations",
     version="1.0.0"
 )
 

@@ -1,6 +1,6 @@
 # RecoverAI: System Architecture
 
-This document describes the design and technical architecture of **RecoverAI**, an autonomous revenue recovery system built for the Razorpay AI Buildathon.
+This document describes the design and technical architecture of **RecoverAI**, an autonomous revenue recovery system for enterprise payment operations.
 
 ---
 

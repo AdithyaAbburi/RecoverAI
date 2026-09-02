@@ -87,7 +87,7 @@ def load_evaluation_data():
 
 # Title Header
 st.title("RecoverAI: Revenue Recovery Operations Control Dashboard")
-st.markdown("### Razorpay AI Buildathon — Track 03: AI Revenue Recovery")
+st.markdown("### Autonomous AI-Powered Revenue Recovery & Operations Control")
 
 # Load data
 db_df = load_db_data()

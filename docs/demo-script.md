@@ -1,13 +1,13 @@
 # RecoverAI: 5-Minute Demo Presentation Script
 
-Use this outline and script to record a 5-minute presentation video for the Razorpay AI Buildathon submission.
+Use this outline and script to record a 5-minute technical demo video of RecoverAI.
 
 ---
 
 ## Part 1: Problem Definition (0:00 - 0:30)
 - **Visuals**: Show slide with payment failure statistics and revenue leakage.
 - **Narrative**:
-  > "Hi, today I'm presenting RecoverAI, an autonomous revenue recovery agent built for the Razorpay Buildathon under Track 03: AI Revenue Recovery.
+  > "Hi, today I'm presenting RecoverAI, an autonomous revenue recovery system for enterprise payment operations.
   > In digital commerce, payment failures are a silent killer. Up to 15% of transactions fail, but not all failures are equal. Naive retry rules spam users or trigger repeat bank failures, leading to poor customer experience and lost revenue.
   > RecoverAI solves this by executing autonomous diagnosis, economic optimization, and policy-bounded recovery actions."
 

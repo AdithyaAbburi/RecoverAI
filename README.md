@@ -1,15 +1,14 @@
-# RecoverAI: Bounded Autonomous Revenue Recovery Agent
+# RecoverAI: Bounded Autonomous Revenue Recovery System
 
-> **Live Operations Dashboard**: [https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app](https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app)  
-> **Razorpay AI Buildathon (Track 03: AI Revenue Recovery)**
+> **Live Operations Dashboard**: [https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app](https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app)
 
-RecoverAI is an autonomous revenue recovery system designed for enterprise payment operations. It detects payment failures, diagnoses root causes using generative AI context parsing, optimizes recovery paths through Expected Recovery Value (ERV) mathematical ranking, and executes bounded recovery actions under strict deterministic safety guardrails. Built for the Razorpay AI Buildathon under Track 03 (AI Revenue Recovery).
+RecoverAI is an autonomous revenue recovery system designed for enterprise payment operations. It detects payment failures, diagnoses root causes using generative AI context parsing, optimizes recovery paths through Expected Recovery Value (ERV) mathematical ranking, and executes bounded recovery actions under strict deterministic safety guardrails.
 
 ---
 
 ## Executive Summary & Benchmark Metrics
 
-RecoverAI was evaluated on a reproducible batch of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the canonical benchmark exported to `data/evaluation/evaluation_results.json`:
+RecoverAI was evaluated on a benchmark of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the canonical evaluation results exported to `data/evaluation/evaluation_results.json`:
 
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Static Mapping) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
@@ -29,6 +28,19 @@ RecoverAI was evaluated on a reproducible batch of 1,000 synthetic transaction f
 | **Stopping Rule Compliance** | 100.0% | 100.0% | **100.0% (MAX_ATTEMPTS=2 Enforced)** |
 
 *Note: Transaction recovery rate measures count of resolved transactions, while revenue recovery rate measures financial value recovered from total revenue at risk.*
+
+---
+
+## Operations Control Dashboard Architecture & Functionality
+
+The Streamlit Operations Control Room provides payment operations teams with real-time visibility and auditability over the autonomous recovery process:
+
+1. **Executive KPI Banner**: Displays live financial metrics including Total Revenue at Risk, Gross Recovered Revenue, Net Recovered Revenue (after deducting action operational costs), and Financial Uplift vs static rule benchmarks.
+2. **Comparative Financial Charts**: Renders side-by-side visual comparisons of Gross vs Net Recovery across baseline, static rules, and RecoverAI strategies, along with intervention action distribution bar charts.
+3. **End-to-End Recovery Pipeline Funnel**: Displays transaction state transitions from ingestion, AI evaluation, intervention selection, successful recovery, to human escalation.
+4. **Safety & Stopping Rule Verification**: Confirms strict enforcement of `MAX_ATTEMPTS = 2` stopping rules (Attempt 1 and Attempt 2 execution, Attempt 3 blocking) with zero policy violations.
+5. **System Latency & Performance Breakdown**: Logs stage-by-stage execution latencies (Risk Scoring, Root Cause Analysis, Policy Guardrails, Execution) to verify compliance with enterprise gateway SLAs.
+6. **Interactive AI Decision Trace & Audit Viewer**: Enables deep-dive inspection into individual transactions (e.g. `TX00014`), displaying failure context, AI root cause diagnosis, ERV candidate rankings, policy gate decisions, tool execution results, and immutable SQLite audit timelines.
 
 ---
 
@@ -105,7 +117,7 @@ RecoverAI/
 │   ├── simulator/              # Seeded repeatable payment simulator
 │   ├── services/               # DB and audit services
 │   └── db/                     # DB schemas and database session setup
-├── dashboard/                  # Streamlit Control Room (app.py)
+├── dashboard/                  # Streamlit Operations Dashboard (app.py)
 ├── data/
 │   ├── generated/              # Synthetic CSV datasets
 │   └── evaluation/             # Canonical evaluation JSON & CSV results
@@ -116,7 +128,7 @@ RecoverAI/
 
 ---
 
-## Quick Start and Reproducible Evaluation
+## Quick Start and Local Reproduction
 
 ### 1. Prerequisites
 - **Python**: 3.11+ installed.
@@ -162,7 +174,7 @@ This interactive dashboard is deployed live on **Streamlit Community Cloud** and
 
 ### Resume / Portfolio Format
 ```text
-RecoverAI | Bounded Autonomous Revenue Recovery Agent (Razorpay AI Buildathon)
+RecoverAI | Bounded Autonomous Revenue Recovery System
 • Architected a hybrid AI revenue recovery agent combining local LLM root-cause diagnosis with Expected Recovery Value (ERV) mathematical ranking and deterministic safety policy guardrails.
 • Evaluated on a 1,000 synthetic transaction failure benchmark, achieving 59.03% revenue recovery rate (INR 86.12 Lakhs net) with +12.51% net financial uplift over static rules and 0% policy violations.
 • Built operations control dashboard using Streamlit and REST API using FastAPI with full automated pytest coverage.
