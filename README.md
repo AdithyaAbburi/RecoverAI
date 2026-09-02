@@ -48,48 +48,7 @@ The Streamlit Operations Control Room provides payment operations teams with rea
 
 RecoverAI implements a hybrid architecture: generative AI diagnoses context, while mathematical optimization and compiled Python rules bound financial execution.
 
-```
-                    ┌─────────────────────┐
-                    │ Transaction Failure │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ 1. Risk Engine      │
-                    │ Score & Severity    │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ 2. AI Diagnosis     │
-                    │ Root Cause Context  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ 3. ERV Ranking      │
-                    │ Expected Net Value  │
-                    └──────────┬──────────┘
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ 4. Policy Engine    │
-                    │ Deterministic Gates │
-                    └───────┬───────┬─────┘
-                            │       │
-                   Approved │       │ Rejected / Escalated
-                            ▼       ▼
-                    ┌───────────────┬─────────────────────┐
-                    │ Bounded Tool  │ Human Operations    │
-                    │ Simulator     │ Escalation Queue    │
-                    └───────┬───────┴─────────────────────┘
-                            │
-                            ▼
-                    ┌─────────────────────┐
-                    │ Immutable Audit Log │
-                    │ SQLite Trace DB     │
-                    └─────────────────────┘
-```
+![System Architecture](docs/architecture.png)
 
 ### Architectural Pipeline Details
 
