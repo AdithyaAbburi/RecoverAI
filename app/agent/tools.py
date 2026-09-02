@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.db.models import Transaction, Customer, AuditLog, Invoice
 from app.simulator.payment_simulator import simulate_recovery_attempt
 
-def execute_tool(action: str, transaction_id: str, db: Session, seed: int = None) -> dict:
+def execute_tool(action: str, transaction_id: str, db: Session, seed: int = None, latency_ms: float = 0.0) -> dict:
     """
     Execute a recovery tool on a transaction.
     Interfaced with the simulator, updates DB records, and logs the execution stage.
@@ -46,7 +46,8 @@ def execute_tool(action: str, transaction_id: str, db: Session, seed: int = None
         policy_result="APPROVED",
         tool_result=sim_result["status"],
         amount_recovered=sim_result["amount_recovered"],
-        reason=sim_result["description"]
+        reason=sim_result["description"],
+        latency_ms=latency_ms
     )
     db.add(audit_log)
     

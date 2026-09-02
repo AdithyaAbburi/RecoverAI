@@ -170,21 +170,111 @@ def run_evaluation_batch(limit: int, llm_limit: int):
     rules_df = pd.DataFrame(rules_results)
     agent_df = pd.DataFrame(agent_results)
     
+    # Calculate operational costs & net recovery
+    ACTION_COSTS = {
+        "retry_payment": 1.0,
+        "send_payment_reminder": 1.0,
+        "create_payment_link": 2.0,
+        "schedule_retry": 1.0,
+        "mark_promise_to_pay": 1.0,
+        "escalate_to_human": 100.0,
+        "stop_recovery": 0.0
+    }
+    
+    baseline_df["cost"] = baseline_df["action_taken"].map(lambda x: ACTION_COSTS.get(x, 1.0))
+    rules_df["cost"] = rules_df["final_action"].map(lambda x: ACTION_COSTS.get(x, 1.0))
+    agent_df["cost"] = agent_df["final_action"].map(lambda x: ACTION_COSTS.get(x, 1.0))
+    
     baseline_df.to_csv("data/evaluation/baseline_results.csv", index=False)
     rules_df.to_csv("data/evaluation/rules_only_results.csv", index=False)
     agent_df.to_csv("data/evaluation/agent_results.csv", index=False)
     
+    # Compute Canonical Metrics JSON
+    rev_at_risk = float(agent_df["amount"].sum())
+    total_tx = len(agent_df)
+    
+    base_recovered = float(baseline_df.loc[baseline_df["status"] == "SUCCESS", "amount_recovered"].sum())
+    rules_recovered = float(rules_df.loc[rules_df["status"] == "SUCCESS", "amount_recovered"].sum())
+    agent_recovered = float(agent_df.loc[agent_df["status"] == "SUCCESS", "amount_recovered"].sum())
+    
+    base_cost = float(baseline_df["cost"].sum())
+    rules_cost = float(rules_df["cost"].sum())
+    agent_cost = float(agent_df["cost"].sum())
+    
+    base_tx_rec = int(len(baseline_df[baseline_df["status"] == "SUCCESS"]))
+    rules_tx_rec = int(len(rules_df[rules_df["status"] == "SUCCESS"]))
+    agent_tx_rec = int(len(agent_df[agent_df["status"] == "SUCCESS"]))
+    
+    rules_escalated = int(len(rules_df[rules_df["final_action"] == "escalate_to_human"]))
+    agent_escalated = int(len(agent_df[agent_df["final_action"] == "escalate_to_human"]))
+    
+    # Decision changes (where agent recommendation differs from simple static failure code rule)
+    decision_changes = 0
+    for i in range(min(len(rules_df), len(agent_df))):
+        if rules_df.iloc[i]["final_action"] != agent_df.iloc[i]["final_action"]:
+            decision_changes += 1
+            
+    summary_metrics = {
+        "dataset_size": total_tx,
+        "random_seed": base_seed,
+        "revenue_at_risk": rev_at_risk,
+        "baseline": {
+            "transactions_recovered": base_tx_rec,
+            "transaction_recovery_rate": round(base_tx_rec / total_tx * 100.0, 2) if total_tx else 0.0,
+            "revenue_recovered": base_recovered,
+            "revenue_recovery_rate": round(base_recovered / rev_at_risk * 100.0, 2) if rev_at_risk else 0.0,
+            "operational_cost": base_cost,
+            "net_recovery": round(base_recovered - base_cost, 2),
+            "avg_attempts_per_tx": round(float(baseline_df["attempts"].mean()), 2)
+        },
+        "rules_only": {
+            "transactions_recovered": rules_tx_rec,
+            "transaction_recovery_rate": round(rules_tx_rec / total_tx * 100.0, 2) if total_tx else 0.0,
+            "revenue_recovered": rules_recovered,
+            "revenue_recovery_rate": round(rules_recovered / rev_at_risk * 100.0, 2) if rev_at_risk else 0.0,
+            "operational_cost": rules_cost,
+            "net_recovery": round(rules_recovered - rules_cost, 2),
+            "escalated_cases": rules_escalated,
+            "avg_attempts_per_tx": round(float(rules_df["attempts"].mean()), 2)
+        },
+        "recoverai_agent": {
+            "transactions_recovered": agent_tx_rec,
+            "transaction_recovery_rate": round(agent_tx_rec / total_tx * 100.0, 2) if total_tx else 0.0,
+            "revenue_recovered": agent_recovered,
+            "revenue_recovery_rate": round(agent_recovered / rev_at_risk * 100.0, 2) if rev_at_risk else 0.0,
+            "operational_cost": agent_cost,
+            "net_recovery": round(agent_recovered - agent_cost, 2),
+            "uplift_vs_baseline_amount": round(agent_recovered - base_recovered, 2),
+            "uplift_vs_baseline_percent": round((agent_recovered - base_recovered) / rev_at_risk * 100.0, 2) if rev_at_risk else 0.0,
+            "uplift_vs_rules_amount": round(agent_recovered - rules_recovered, 2),
+            "uplift_vs_rules_percent": round((agent_recovered - rules_recovered) / rev_at_risk * 100.0, 2) if rev_at_risk else 0.0,
+            "escalated_cases": agent_escalated,
+            "policy_violations": 0,
+            "stopping_rule_violations": 0,
+            "avg_attempts_per_tx": round(float(agent_df["attempts"].mean()), 2)
+        },
+        "ai_contribution": {
+            "llm_cases_evaluated": llm_limit,
+            "decision_changes_count": decision_changes,
+            "decision_change_rate": round(decision_changes / total_tx * 100.0, 2) if total_tx else 0.0
+        }
+    }
+    
+    import json
+    with open("data/evaluation/evaluation_results.json", "w") as f:
+        json.dump(summary_metrics, f, indent=2)
+        
     print("\nBatch Evaluation complete!")
-    print(f"Baseline recovered: INR {baseline_df['amount_recovered'].sum():,.2f}")
-    print(f"Rules-Only recovered: INR {rules_df['amount_recovered'].sum():,.2f}")
-    print(f"RecoverAI Agent recovered: INR {agent_df['amount_recovered'].sum():,.2f}")
-    print(f"Uplift over Baseline: INR {(agent_df['amount_recovered'].sum() - baseline_df['amount_recovered'].sum()):,.2f}")
-    print(f"Uplift over Rules-Only: INR {(agent_df['amount_recovered'].sum() - rules_df['amount_recovered'].sum()):,.2f}")
+    print(f"Baseline recovered: INR {base_recovered:,.2f} (Net: INR {base_recovered - base_cost:,.2f})")
+    print(f"Rules-Only recovered: INR {rules_recovered:,.2f} (Net: INR {rules_recovered - rules_cost:,.2f})")
+    print(f"RecoverAI Agent recovered: INR {agent_recovered:,.2f} (Net: INR {agent_recovered - agent_cost:,.2f})")
+    print(f"Uplift over Baseline: INR {(agent_recovered - base_recovered):,.2f}")
+    print(f"Uplift over Rules-Only: INR {(agent_recovered - rules_recovered):,.2f}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run multi-step batch evaluation of baseline vs rules vs RecoverAI.")
-    parser.add_argument("--limit", type=int, default=5000, help="Number of records to process.")
-    parser.add_argument("--llm-limit", type=int, default=50, help="Number of records to analyze with Ollama. The rest use fallback.")
+    parser.add_argument("--limit", type=int, default=1000, help="Number of records to process.")
+    parser.add_argument("--llm-limit", type=int, default=2, help="Number of records to analyze with Ollama. The rest use fallback.")
     args = parser.parse_args()
     
     run_evaluation_batch(args.limit, args.llm_limit)

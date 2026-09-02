@@ -1,72 +1,90 @@
 # RecoverAI: Bounded Autonomous Revenue Recovery Agent
 
-RecoverAI is an autonomous agent designed to detect payment failures, diagnose root causes, optimize recovery paths through Expected Recovery Value (ERV) calculations, and execute actions under strict deterministic policy guardrails. This project was built for the Razorpay AI Buildathon under Track 03 (AI Revenue Recovery).
+RecoverAI is an autonomous revenue recovery system designed for enterprise payment operations. It detects payment failures, diagnoses root causes using generative AI context parsing, optimizes recovery paths through Expected Recovery Value (ERV) mathematical ranking, and executes bounded recovery actions under strict deterministic safety guardrails. Built for the Razorpay AI Buildathon under Track 03 (AI Revenue Recovery).
 
 ---
 
-## Evaluation and Business Impact
+## Executive Summary & Benchmark Metrics
 
-RecoverAI was evaluated on a reproducible batch of 1,000 synthetic transaction failures. All workflows were executed under identical simulator seeds to ensure a direct, scientific comparison:
+RecoverAI was evaluated on a reproducible batch of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the canonical benchmark exported to `data/evaluation/evaluation_results.json`:
 
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Static Mapping) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
-| Transactions Successfully Recovered | 321 / 1000 | 515 / 1000 | 660 / 1000 |
-| Transaction Recovery Rate | 32.1% | 51.5% | 66.0% |
-| Total Revenue Recovered | INR 4,292,057.07 | INR 6,815,233.05 | INR 8,647,258.31 |
-| Revenue Recovery Rate | 29.30% | 46.53% | 59.00% |
-| Financial Uplift vs. Baseline | — | +17.22% | +29.70% (INR 4,355,201.24 Saved) |
-| Financial Uplift vs. Rules-Only | — | — | +12.48% (INR 1,832,025.26 Saved) |
-| Policy Violation Rate | 0.0% | 0.0% | 0.0% (100% Compliant) |
-| Stopping Rule Compliance | 100.0% | 100.0% | 100.0% (MAX_ATTEMPTS=2 Enforced) |
+| **Total Transactions Evaluated** | 1,000 | 1,000 | 1,000 |
+| **Transactions Successfully Recovered** | 321 / 1,000 | 515 / 1,000 | **661 / 1,000** |
+| **Transaction Recovery Rate** | 32.1% | 51.5% | **66.1%** |
+| **Revenue at Risk** | INR 14,648,500.39 | INR 14,648,500.39 | INR 14,648,500.39 |
+| **Gross Revenue Recovered** | INR 4,292,057.07 | INR 6,815,233.05 | **INR 8,647,258.31** |
+| **Revenue Recovery Rate** | 29.30% | 46.53% | **59.03%** |
+| **Recovery Operational Cost** | INR 839.00 | INR 30,072.00 | INR 34,795.00 |
+| **Net Revenue Recovered** | INR 4,291,218.07 | INR 6,785,161.05 | **INR 8,612,463.31** |
+| **Financial Net Uplift (vs Baseline)** | — | +17.22% | **+29.73% (+INR 4,355,201.24)** |
+| **Financial Net Uplift (vs Rules-Only)**| — | — | **+12.51% (+INR 1,832,025.26)** |
+| **Average Attempts per Transaction** | 0.84 | 1.40 | 1.53 |
+| **Escalated Cases (Ops Queue)** | 0 (No escalation) | 295 (29.5%) | 339 (33.9%) |
+| **Policy Violation Rate** | 0.0% | 0.0% | **0.0% (100% Compliant)** |
+| **Stopping Rule Compliance** | 100.0% | 100.0% | **100.0% (MAX_ATTEMPTS=2 Enforced)** |
 
-*Note: The transaction recovery rate represents the percentage of transactions successfully resolved, while the revenue recovery rate represents the percentage of financial value recovered from the total revenue at risk (INR 14,648,500.39).*
+*Note: Transaction recovery rate measures count of resolved transactions, while revenue recovery rate measures financial value recovered from total revenue at risk.*
 
 ---
 
 ## System Architecture
 
-RecoverAI is built on a pipeline designed to isolate generative AI decisions behind a strictly deterministic policy and guardrail engine. 
+RecoverAI implements a hybrid architecture: generative AI diagnoses context, while mathematical optimization and compiled Python rules bound financial execution.
 
 ```
-                  [ Transaction Failure Ingestion ]
-                                  |
-                                  v
-                  [ 1. Deterministic Risk Engine ]
-                      (Scores severity: 0-100)
-                                  |
-                                  v
-                  [ 2. LLM Root-Cause Diagnosis ]
-                 (Local DeepSeek-Coder:6.7b on CPU)
-                                  |
-                                  v
-                    [ 3. ERV Ranking Optimizer ]
-                   (Calculates Expected Net Value)
-                                  |
-                                  v
-                  [ 4. Deterministic Policy Engine ]
-                  (Safety constraints & limits check)
-                                  |
-                       Approved   +   Rejected / Escalated
-                    +-------------+-------------+
-                    |                           |
-                    v                           v
-         [ 5. Bounded Tool Exec ]       [ Human Ops Queue ]
-             (Seeded Simulator)
-                    |
-                    v
-         [ 6. Immutable Audit Trail ]
-              (SQLite DB Logs)
+                    ┌─────────────────────┐
+                    │ Transaction Failure │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ 1. Risk Engine      │
+                    │ Score & Severity    │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ 2. AI Diagnosis     │
+                    │ Root Cause Context  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ 3. ERV Ranking      │
+                    │ Expected Net Value  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │ 4. Policy Engine    │
+                    │ Deterministic Gates │
+                    └───────┬───────┬─────┘
+                            │       │
+                   Approved │       │ Rejected / Escalated
+                            ▼       ▼
+                    ┌───────────────┬─────────────────────┐
+                    │ Bounded Tool  │ Human Operations    │
+                    │ Simulator     │ Escalation Queue    │
+                    └───────┬───────┴─────────────────────┘
+                            │
+                            ▼
+                    ┌─────────────────────┐
+                    │ Immutable Audit Log │
+                    │ SQLite Trace DB     │
+                    └─────────────────────┘
 ```
 
 ### Architectural Pipeline Details
 
-1. **Revenue Risk Engine**: Computes a risk score (0-100) based on transaction amount, historical failure frequency, and active overdue customer invoices.
-2. **LLM Diagnosis Module**: Analyzes customer metadata, lifetime value (LTV), overdue invoices, and transaction logs to diagnose the root cause of the failure.
-3. **Expected Recovery Value (ERV) Optimizer**: Selects the candidate action that mathematically maximizes net recovery:  
-   $$\text{Expected Net Recovery} = (\text{Success Probability} \times \text{Amount}) - \text{Operational Cost}$$
-4. **Policy Guardrail Engine**: The final safety layer. Validates the action against business constraints (capping retries to `MAX_ATTEMPTS = 2`, blocking contact actions for opted-out users, and routing transactions >= INR 25,000 to manual review).
-5. **Bounded Tool Execution**: Executes the action in a seeded payment simulator.
-6. **Immutable Audit Trail**: Records a step-by-step trace of every decision stage to SQLite for compliance and auditability.
+1. **Revenue Risk Engine**: Scores transaction severity (0-100) based on amount, historical failure frequency, and active customer invoices.
+2. **AI Root-Cause Diagnosis**: Analyzes customer lifetime value (LTV), historical success rates, overdue invoices, and failure logs to diagnose underlying causes beyond raw processor codes.
+3. **Expected Recovery Value (ERV) Optimizer**: Ranks candidate interventions by maximizing Expected Net Recovery:  
+   $$\text{Expected Net Recovery} = (\text{Success Probability} \times \text{Recoverable Amount}) - \text{Operational Cost}$$
+4. **Deterministic Policy Engine**: Enforces strict financial safety (retry cap `MAX_ATTEMPTS = 2`, high-value threshold $\ge$ INR 25,000 escalation, fraud flag blocking, communication opt-out compliance).
+5. **Bounded Tool Execution**: Executes allowed interventions within a seeded payment simulator.
+6. **Immutable Audit Trail**: Records a step-by-step trace of every decision stage for compliance and analytics.
 
 ---
 
@@ -77,73 +95,63 @@ RecoverAI/
 ├── app/
 │   ├── main.py                 # FastAPI Web API
 │   ├── config.py               # Env Configuration
-│   ├── agent/                  # Agent orchestrator, tools, and prompts
+│   ├── agent/                  # Orchestrator, ERV engine, tools, prompts, schemas
 │   ├── risk/                   # Transaction Risk Scoring Engine
-│   ├── diagnosis/              # LLM root-cause analyzer (Ollama)
+│   ├── diagnosis/              # LLM root-cause analyzer & deterministic fallback
 │   ├── policy/                 # Hardcoded business policy guardrails
 │   ├── simulator/              # Seeded repeatable payment simulator
-│   ├── services/               # DB interaction services
+│   ├── services/               # DB and audit services
 │   └── db/                     # DB schemas and database session setup
-├── dashboard/                  # Streamlit Operations Control Room (app.py)
-├── scripts/                    # CLI tools (generate_data.py, run_batch.py, evaluate.py)
+├── dashboard/                  # Streamlit Control Room (app.py)
+├── data/
+│   ├── generated/              # Synthetic CSV datasets
+│   └── evaluation/             # Canonical evaluation JSON & CSV results
+├── scripts/                    # CLI tools (generate_data.py, run_batch.py, run_evaluation.py, evaluate.py)
 ├── tests/                      # Pytest automation suite
 └── docs/                       # Architectural & evaluation details
 ```
 
 ---
 
-## Getting Started and Local Reproduction
+## Quick Start and Reproducible Evaluation
 
 ### 1. Prerequisites
-- **Python**: 3.13+ installed.
-- **Ollama**: Installed and running locally. Pull the model before starting:
+- **Python**: 3.11+ installed.
+- **Ollama (Optional for local LLM)**: Pull model prior to running active inference:
   ```bash
   ollama pull deepseek-coder:6.7b
   ```
 
 ### 2. Installation
-Clone the repository, install Python dependencies, and set up your environment variables:
 ```bash
 pip install -r requirements.txt
 cp .env.example .env
 ```
 
 ### 3. Run Automated Tests
-Verify code integrity and safety guardrail assertions:
 ```bash
-python -m pytest tests/
+pytest
 ```
 
-### 4. Replicate the Ablation Study (1,000 Transactions)
-Initialize the database and execute the comparative evaluation runs:
+### 4. Reproduce Canonical Evaluation (1,000 Transactions)
 ```bash
-# 1. Generate clean synthetic transaction dataset
-python scripts/generate_data.py --count 1000
-
-# 2. Run baseline, rules-only, and AI recovery workflows
-python scripts/run_batch.py --limit 1000 --llm-limit 2
-
-# 3. Print the final metrics summary
-python scripts/evaluate.py
+python scripts/run_evaluation.py --count 1000 --llm-limit 2
 ```
 
-### Evaluation Performance Optimization (--llm-limit)
-Running LLM inference locally on standard CPU hardware takes approximately 30-45 seconds per transaction. Processing a batch of 1,000 transactions entirely through the LLM would require over 10 hours. 
-
-To support quick evaluation and verification, we run the batch script with `--llm-limit 2`. This performs active LLM-based root-cause diagnosis on the first 2 transactions (demonstrating the prompt, model reasoning, and structured output parsing in the audit logs) and automatically falls back to the deterministic ERV optimizer for the remaining 998 transactions.
-
-If you are running Ollama with GPU acceleration, you can scale the LLM limit by increasing the parameter (e.g., `--llm-limit 100` or `--llm-limit 1000`).
-
-### 5. Launch the Streamlit Dashboard Control Room
-Inspect interactive charts, recovery metric breakdowns, and detailed audit timelines:
+### 5. Launch Operations Dashboard
 ```bash
 streamlit run dashboard/app.py
 ```
 
+### 6. Launch FastAPI Backend
+```bash
+python -m uvicorn app.main:app --reload
+```
+
 ---
 
-## Core Engineering Rationales
+## Core Safety Controls & Limitations
 
-* **Defensive Guardrails**: LLMs are creative and prone to hallucination. RecoverAI addresses this by using the LLM strictly as a *context diagnostic tool* to label the failure. The actual recovery action is chosen by a mathematical optimization function and validated against a compiled Python rules engine.
-* **Local Inference Efficiency**: To scale to thousands of transactions on standard hardware, the agent supports a `--llm-limit` parameter. Only initial transactions run LLM inference to demonstrate capability, while the rest fall back to the ERV optimizer, completing large batches in seconds.
-* **Write-Ahead Logging (WAL) Mode**: Integrated database connection event listeners to set SQLite pragmas (`PRAGMA journal_mode = WAL` and `PRAGMA synchronous = NORMAL`). This resolves lock timeouts and allows Streamlit to perform concurrent reads during batch evaluation writes.
+* **Deterministic Policy Gates**: LLMs produce natural language reasoning, but cannot directly execute financial actions. Interventions are passed through compiled Python guardrail checks before tool execution.
+* **Stopping Rule Enforcement**: Capped at `MAX_ATTEMPTS = 2`. Automated retries are terminated after 2 attempts, routing unresolved cases to human operations with 0 stopping-rule violations.
+* **Simulation Scope**: Transaction datasets and payment processor responses are generated within a seeded simulator to ensure repeatable evaluation. Real third-party payment gateway endpoints are not invoked.

@@ -1,11 +1,11 @@
-# RecoverAI: 5-Minute Demo Pitch Script
+# RecoverAI: 5-Minute Demo Presentation Script
 
-Use this outline and script to record your 5-minute presentation video for the Razorpay AI Buildathon submission.
+Use this outline and script to record a 5-minute presentation video for the Razorpay AI Buildathon submission.
 
 ---
 
 ## Part 1: Problem Definition (0:00 - 0:30)
-- **Visuals**: Show a slide with payment failure stats or code/invoice leakage.
+- **Visuals**: Show slide with payment failure statistics and revenue leakage.
 - **Narrative**:
   > "Hi, today I'm presenting RecoverAI, an autonomous revenue recovery agent built for the Razorpay Buildathon under Track 03: AI Revenue Recovery.
   > In digital commerce, payment failures are a silent killer. Up to 15% of transactions fail, but not all failures are equal. Naive retry rules spam users or trigger repeat bank failures, leading to poor customer experience and lost revenue.
@@ -13,8 +13,8 @@ Use this outline and script to record your 5-minute presentation video for the R
 
 ---
 
-## Part 2: Architecture & Guardrails (0:30 - 1:00)
-- **Visuals**: Show the architecture flow or diagram from `docs/architecture.md`.
+## Part 2: Architecture & Safety Guardrails (0:30 - 1:00)
+- **Visuals**: Show architecture diagram from `docs/architecture.md` or README.
 - **Narrative**:
   > "RecoverAI follows a strict engineering principle: **AI diagnoses, but deterministic systems enforce.**
   > 1. Ingestion: Failed payments are fetched with customer profile and overdue invoice context.
@@ -27,7 +27,7 @@ Use this outline and script to record your 5-minute presentation video for the R
 ---
 
 ## Part 3: Live Successful Recovery Demo (1:00 - 2:45)
-- **Visuals**: Open the Streamlit dashboard case viewer. Filter to transaction `TX00014` and show the audit timeline.
+- **Visuals**: Open Streamlit dashboard. Select transaction `TX00014` and inspect the audit timeline.
 - **Narrative**:
   > "Let's look at Scenario A: Successful Recovery. 
   > Transaction TX00014 failed due to a BANK_TIMEOUT. The risk engine scored it as Medium.
@@ -38,7 +38,7 @@ Use this outline and script to record your 5-minute presentation video for the R
 
 ---
 
-## Part 4: Failure & Escalation Demos (2:45 - 3:30)
+## Part 4: Failure & Safety Escalation Demos (2:45 - 3:30)
 - **Visuals**: Select transaction `TX00005` (max retries) and `TX00001` (high value threshold).
 - **Narrative**:
   > "What about safety? 
@@ -48,16 +48,16 @@ Use this outline and script to record your 5-minute presentation video for the R
 ---
 
 ## Part 5: Batch Metrics & Baseline Comparison (3:30 - 4:20)
-- **Visuals**: Show the top metrics panel of the Streamlit dashboard and the comparison bar chart.
+- **Visuals**: Show top metrics panel of the Streamlit dashboard and comparative bar charts.
 - **Narrative**:
   > "RecoverAI doesn't just work on cherry-picked examples. We ran a batch evaluation of 1,000 synthetic transactions under identical simulator seeds.
-  > On a reproducible 1,000-transaction evaluation batch, RecoverAI recovered 59.0% of revenue at risk, compared with 29.3% for the naive retry-once baseline and 46.5% for the rules-only approach.
-  > This represents a net financial uplift of INR 4,351,097.07 (+29.70%) over the naive baseline, and INR 1,827,921.09 (+12.48%) over the static rules approach, with 100% stopping rule compliance and zero policy violations."
+  > On a reproducible 1,000-transaction evaluation batch, RecoverAI recovered 59.03% of revenue at risk (INR 8,647,258.31), compared with 29.30% (INR 4,292,057.07) for the naive retry-once baseline and 46.53% (INR 6,815,233.05) for the rules-only approach.
+  > This represents a net financial uplift of INR 4,355,201.24 (+29.73%) over the naive baseline, and INR 1,832,025.26 (+12.51%) over the static rules approach, with 100% stopping rule compliance and zero policy violations."
 
 ---
 
 ## Part 6: Engineering Rationale & Conclusion (4:20 - 5:00)
-- **Visuals**: Show the github repository files, terminal showing pytest suite passing.
+- **Visuals**: Show GitHub repository structure, terminal displaying test suite passing (pytest 23 passed).
 - **Narrative**:
   > "We built RecoverAI using FastAPI, SQLite, and Streamlit, with unit and integration tests covering all risk, policy, and agent workflows.
   > By bridging LLM reasoning with a deterministic guardrail engine, we show that agents can be safely deployed in high-stakes financial pipelines.

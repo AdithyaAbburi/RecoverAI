@@ -247,19 +247,9 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
 
         # --- STEP 4: BOUNDED EXECUTION ---
         start_time = time.perf_counter()
-        execution_result = execute_tool(final_action, transaction_id, db, seed)
+        execution_result = execute_tool(final_action, transaction_id, db, seed, latency_ms=0.0)
         exec_latency = (time.perf_counter() - start_time) * 1000.0
-
-        log_audit(
-            db=db,
-            transaction_id=transaction_id,
-            stage="execution",
-            agent_action=final_action,
-            tool_result=execution_result["status"],
-            amount_recovered=execution_result["amount_recovered"],
-            reason=execution_result["description"],
-            latency_ms=exec_latency
-        )
+        # Update latency on execution_result if needed
         
         last_res = {
             "transaction_id": transaction_id,
@@ -296,17 +286,6 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
         )
         execution_result = execute_tool("escalate_to_human", transaction_id, db, seed)
         escalation_latency = (time.perf_counter() - start_time) * 1000.0
-
-        log_audit(
-            db=db,
-            transaction_id=transaction_id,
-            stage="execution",
-            agent_action="escalate_to_human",
-            tool_result=execution_result["status"],
-            amount_recovered=execution_result["amount_recovered"],
-            reason=execution_result["description"],
-            latency_ms=escalation_latency
-        )
 
         last_res = {
             "transaction_id": transaction_id,

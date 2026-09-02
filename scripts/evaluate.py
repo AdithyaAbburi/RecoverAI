@@ -47,6 +47,25 @@ def generate_report():
     # Policy Violations (Any automated action taken that violates policy, always 0 because of the engine)
     violations = 0
     
+    # Action operational costs lookup
+    ACTION_COSTS = {
+        "retry_payment": 1.0,
+        "send_payment_reminder": 1.0,
+        "create_payment_link": 2.0,
+        "schedule_retry": 1.0,
+        "mark_promise_to_pay": 1.0,
+        "escalate_to_human": 100.0,
+        "stop_recovery": 0.0
+    }
+    
+    baseline_cost = baseline_df["action_taken"].map(lambda x: ACTION_COSTS.get(x, 1.0)).sum() if "action_taken" in baseline_df.columns else baseline_df["attempts"].sum() * 1.0
+    rules_cost = rules_df["final_action"].map(lambda x: ACTION_COSTS.get(x, 1.0)).sum()
+    agent_cost = agent_df["final_action"].map(lambda x: ACTION_COSTS.get(x, 1.0)).sum()
+    
+    baseline_net = baseline_recovered - baseline_cost
+    rules_net = rules_recovered - rules_cost
+    agent_net = agent_recovered - agent_cost
+
     # Render report
     print("\n" + "="*60)
     print("           RECOVERAI ABLATION EVALUATION REPORT")
@@ -57,15 +76,18 @@ def generate_report():
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Multi-step) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
 | **Total Transactions** | {total_tx:,} | {total_tx:,} | {total_tx:,} |
-| **Transactions Recovered** | {baseline_tx_rec:,} ({baseline_tx_rec/total_tx*100:.1f}%) | {rules_tx_rec:,} ({rules_tx_rec/total_tx*100:.1f}%) | {agent_tx_rec:,} ({agent_tx_rec/total_tx*100:.1f}%) |
+| **Transactions Successfully Recovered** | {baseline_tx_rec:,} / {total_tx:,} | {rules_tx_rec:,} / {total_tx:,} | {agent_tx_rec:,} / {total_tx:,} |
+| **Transaction Recovery Rate** | {baseline_tx_rec/total_tx*100:.1f}% | {rules_tx_rec/total_tx*100:.1f}% | **{agent_tx_rec/total_tx*100:.1f}%** |
 | **Revenue at Risk** | INR {rev_at_risk:,.2f} | INR {rev_at_risk:,.2f} | INR {rev_at_risk:,.2f} |
-| **Revenue Recovered** | INR {baseline_recovered:,.2f} | INR {rules_recovered:,.2f} | INR {agent_recovered:,.2f} |
-| **Recovery Rate (%)** | {baseline_rate:.2f}% | {rules_rate:.2f}% | {agent_rate:.2f}% |
-| **Recovery Uplift (vs. Baseline)** | - | **+{rules_rate - baseline_rate:.2f}%** | **+{agent_rate - baseline_rate:.2f}%** |
-| **Recovery Uplift (vs. Rules-Only)**| - | - | **+{agent_rate - rules_rate:.2f}%** |
+| **Gross Revenue Recovered** | INR {baseline_recovered:,.2f} | INR {rules_recovered:,.2f} | **INR {agent_recovered:,.2f}** |
+| **Revenue Recovery Rate** | {baseline_rate:.2f}% | {rules_rate:.2f}% | **{agent_rate:.2f}%** |
+| **Recovery Operational Cost** | INR {baseline_cost:,.2f} | INR {rules_cost:,.2f} | INR {agent_cost:,.2f} |
+| **Net Revenue Recovered** | INR {baseline_net:,.2f} | INR {rules_net:,.2f} | **INR {agent_net:,.2f}** |
+| **Financial Uplift (vs. Baseline)** | - | **+{rules_rate - baseline_rate:.2f}%** | **+{agent_rate - baseline_rate:.2f}% (INR {agent_recovered - baseline_recovered:,.2f})** |
+| **Financial Uplift (vs. Rules-Only)**| - | - | **+{agent_rate - rules_rate:.2f}% (INR {agent_recovered - rules_recovered:,.2f})** |
 | **Average Attempts / TX** | {avg_attempts_base:.2f} | {avg_attempts_rules:.2f} | {avg_attempts_agent:.2f} |
 | **Escalated Cases** | 0 (No escalation) | {rules_escalated:,} ({rules_escalated/total_tx*100:.1f}%) | {agent_escalated:,} ({agent_escalated/total_tx*100:.1f}%) |
-| **Policy Violation Rate** | 0.0% | 0.0% | **0.0%** |
+| **Policy Violation Rate** | 0.0% | 0.0% | **0.0% (100% Compliant)** |
 | **Stopping Rule Compliance** | 100.0% | 100.0% | **100.0% (MAX_ATTEMPTS=2 Enforced)** |
 
 ### Recovery Actions Executed (RecoverAI Agent)
