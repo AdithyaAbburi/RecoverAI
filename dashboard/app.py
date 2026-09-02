@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from app.config import settings
-from app.db.models import Transaction, Customer, Invoice, AuditLog
+from app.db.models import Base, Transaction, Customer, Invoice, AuditLog
 from app.agent.erv_engine import calculate_ervs
 
 # Set page config
