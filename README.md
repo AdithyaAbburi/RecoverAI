@@ -52,13 +52,15 @@ RecoverAI implements a hybrid architecture: generative AI diagnoses context, whi
 
 ### Architectural Pipeline Details
 
-1. **Revenue Risk Engine**: Scores transaction severity (0-100) based on amount, historical failure frequency, and active customer invoices.
-2. **AI Root-Cause Diagnosis**: Analyzes customer lifetime value (LTV), historical success rates, overdue invoices, and failure logs to diagnose underlying causes beyond raw processor codes.
-3. **Expected Recovery Value (ERV) Optimizer**: Ranks candidate interventions by maximizing Expected Net Recovery:  
+1. **Transaction Data Ingestion**: Collects transaction details (amount, customer profile, payment history, overdue invoice context).
+2. **Risk Engine (Score & Severity)**: Computes a business risk score (0-100) based on transaction value, customer LTV, historical success rate, and overdue invoice age.
+3. **AI Diagnosis (Root Cause Context)**: Analyzes contextual data to identify underlying causes (e.g. temporary bank timeouts vs chronic liquidity issues) beyond surface failure codes.
+4. **ERV Ranking (Expected Net Value)**: Ranks candidate recovery interventions by maximizing Expected Net Recovery:
    $$\text{Expected Net Recovery} = (\text{Success Probability} \times \text{Recoverable Amount}) - \text{Operational Cost}$$
-4. **Deterministic Policy Engine**: Enforces strict financial safety (retry cap `MAX_ATTEMPTS = 2`, high-value threshold $\ge$ INR 25,000 escalation, fraud flag blocking, communication opt-out compliance).
-5. **Bounded Tool Execution**: Executes allowed interventions within a seeded payment simulator.
-6. **Immutable Audit Trail**: Records a step-by-step trace of every decision stage for compliance and analytics.
+5. **Policy Engine (Deterministic Gates)**: Validates actions against strict safety guardrails (retry cap `MAX_ATTEMPTS = 2`, high-value threshold $\ge$ INR 25,000 escalation, fraud risk flag blocking, communication opt-out compliance).
+6. **Bounded Tool Execution (Approved Branch)**: Executes approved interventions within a seeded payment simulator.
+7. **Human Operations Escalation (Rejected/Escalated Branch)**: Safely routes high-value, fraud-flagged, or retry-exhausted cases to manual review queues.
+8. **Immutable Audit Log (SQLite Trace DB)**: Records a step-by-step trace of every decision stage for compliance, governance, and operational analytics.
 
 ---
 
