@@ -23,3 +23,5 @@ data/generated/*
 data/evaluation/*
 !data/generated/.gitkeep
 !data/evaluation/.gitkeep
+!data/evaluation/*.json
+!data/evaluation/*.csv

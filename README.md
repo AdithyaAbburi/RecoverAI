@@ -150,6 +150,31 @@ python -m uvicorn app.main:app --reload
 
 ---
 
+## 🌐 Public Cloud Deployment & Resume Linking
+
+To deploy this interactive dashboard online for free so recruiters, buildathon judges, or reviewers can access your live project directly from your **resume, LinkedIn, or GitHub repository**:
+
+### 1-Click Deployment via Streamlit Community Cloud (Free)
+1. Go to **[share.streamlit.io](https://share.streamlit.io)** and log in with your GitHub account (`AdithyaAbburi`).
+2. Click **"New App"**.
+3. Select your repository: `AdithyaAbburi/RecoverAI`
+4. Set Main file path: `dashboard/app.py`
+5. Click **"Deploy!"**
+
+*Your dashboard will be live at a public URL (e.g. `https://recoverai.streamlit.app`) in under 60 seconds with pre-loaded canonical evaluation metrics, interactive decision traces, and charts accessible from any browser!*
+
+### Formatting for Resume / Portfolio
+You can include this project in your resume under **Projects**:
+```text
+RecoverAI | Bounded Autonomous Revenue Recovery Agent (Razorpay AI Buildathon)
+• Architected a hybrid AI revenue recovery agent combining local LLM root-cause diagnosis with Expected Recovery Value (ERV) mathematical ranking and deterministic safety policy guardrails.
+• Evaluated on a 1,000 synthetic transaction failure benchmark, achieving 59.03% revenue recovery rate (INR 86.12 Lakhs net) with +12.51% net financial uplift over static rules and 0% policy violations.
+• Built operations control dashboard using Streamlit and REST API using FastAPI with full automated pytest coverage.
+• GitHub: https://github.com/AdithyaAbburi/RecoverAI | Live Demo: https://recoverai.streamlit.app
+```
+
+---
+
 ## Core Safety Controls & Limitations
 
 * **Deterministic Policy Gates**: LLMs produce natural language reasoning, but cannot directly execute financial actions. Interventions are passed through compiled Python guardrail checks before tool execution.

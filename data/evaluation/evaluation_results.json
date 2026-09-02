@@ -1,0 +1,45 @@
+{
+  "dataset_size": 1000,
+  "random_seed": 42,
+  "revenue_at_risk": 14648500.39,
+  "baseline": {
+    "transactions_recovered": 321,
+    "transaction_recovery_rate": 32.1,
+    "revenue_recovered": 4292057.07,
+    "revenue_recovery_rate": 29.3,
+    "operational_cost": 839.0,
+    "net_recovery": 4291218.07,
+    "avg_attempts_per_tx": 0.84
+  },
+  "rules_only": {
+    "transactions_recovered": 515,
+    "transaction_recovery_rate": 51.5,
+    "revenue_recovered": 6815233.05,
+    "revenue_recovery_rate": 46.53,
+    "operational_cost": 30072.0,
+    "net_recovery": 6785161.05,
+    "escalated_cases": 295,
+    "avg_attempts_per_tx": 1.4
+  },
+  "recoverai_agent": {
+    "transactions_recovered": 661,
+    "transaction_recovery_rate": 66.1,
+    "revenue_recovered": 8647258.309999999,
+    "revenue_recovery_rate": 59.03,
+    "operational_cost": 34795.0,
+    "net_recovery": 8612463.31,
+    "uplift_vs_baseline_amount": 4355201.24,
+    "uplift_vs_baseline_percent": 29.73,
+    "uplift_vs_rules_amount": 1832025.26,
+    "uplift_vs_rules_percent": 12.51,
+    "escalated_cases": 339,
+    "policy_violations": 0,
+    "stopping_rule_violations": 0,
+    "avg_attempts_per_tx": 1.53
+  },
+  "ai_contribution": {
+    "llm_cases_evaluated": 2,
+    "decision_changes_count": 733,
+    "decision_change_rate": 73.3
+  }
+}

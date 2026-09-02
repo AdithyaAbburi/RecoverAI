@@ -30,7 +30,21 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def load_db_data():
     db = SessionLocal()
     try:
+        # Ensure database tables exist
+        Base.metadata.create_all(bind=engine)
+        
         txs = db.query(Transaction).all()
+        if not txs:
+            # Auto-seed lightweight 100-case dataset for cloud deployment (e.g. Streamlit Community Cloud)
+            try:
+                from scripts.generate_data import generate_synthetic_data
+                from scripts.run_batch import run_evaluation_batch
+                generate_synthetic_data(100)
+                run_evaluation_batch(100, 0)
+                txs = db.query(Transaction).all()
+            except Exception as e:
+                pass
+                
         tx_data = [{
             "transaction_id": t.transaction_id,
             "customer_id": t.customer_id,
