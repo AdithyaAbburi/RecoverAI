@@ -6,7 +6,6 @@ from app.db.database import Base
 from app.db.models import Customer, Transaction, Invoice, AuditLog
 from app.services.recovery_service import process_transaction_recovery
 
-# Setup in-memory sqlite for integration testing
 TEST_DATABASE_URL = "sqlite:///:memory:"
 
 @pytest.fixture
@@ -24,7 +23,6 @@ def db_session():
         Base.metadata.drop_all(bind=engine)
 
 def test_end_to_end_successful_recovery_flow(db_session):
-    # 1. Create customer and transaction
     customer = Customer(
         customer_id="C00001",
         customer_type="returning",
@@ -47,11 +45,8 @@ def test_end_to_end_successful_recovery_flow(db_session):
     db_session.add(transaction)
     db_session.commit()
     
-    # 2. Run recovery (we force use_llm=False to run deterministic fallback instantly in test)
-    # Seed 1 gives a SUCCESS result in retry_payment for BANK_TIMEOUT in simulator
     res = process_transaction_recovery("TX00001", db_session, seed=1, use_llm=False, rules_only=True)
     
-    # 3. Assertions on orchestrator response
     assert res["transaction_id"] == "TX00001"
     assert res["risk_level"] in ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
     assert res["root_cause"] == "temporary_bank_failure"
@@ -59,15 +54,63 @@ def test_end_to_end_successful_recovery_flow(db_session):
     assert res["policy_result"] == "APPROVED"
     assert res["final_action"] == "retry_payment"
     
-    # Verify DB updates
     tx_db = db_session.query(Transaction).filter(Transaction.transaction_id == "TX00001").first()
     assert tx_db.retry_count == 1
     
-    # Verify audit logs are created
     audits = db_session.query(AuditLog).filter(AuditLog.transaction_id == "TX00001").all()
-    assert len(audits) >= 3  # risk_evaluation, root_cause_analysis, policy_guardrail, execution
+    assert len(audits) >= 3
     stages = [a.stage for a in audits]
     assert "risk_evaluation" in stages
     assert "root_cause_analysis" in stages
     assert "policy_guardrail" in stages
     assert "execution" in stages
+
+def test_end_to_end_high_value_escalation_flow(db_session):
+    customer = Customer(
+        customer_id="C00002",
+        customer_type="returning",
+        lifetime_value=50000.0,
+        previous_payment_success_rate=0.90,
+        contact_preference="email",
+        risk_flag=False
+    )
+    transaction = Transaction(
+        transaction_id="TX00002",
+        customer_id="C00002",
+        amount=35000.0,  # High value >= 25k
+        payment_method="CARD",
+        status="FAILED",
+        failure_code="BANK_TIMEOUT",
+        retry_count=0,
+        timestamp=datetime.now()
+    )
+    db_session.add(customer)
+    db_session.add(transaction)
+    db_session.commit()
+
+    res = process_transaction_recovery("TX00002", db_session, seed=1, use_llm=False)
+    assert res["transaction_id"] == "TX00002"
+    assert res["policy_result"] == "ESCALATE"
+    assert res["final_action"] == "escalate_to_human"
+
+def test_end_to_end_invalid_transaction_input(db_session):
+    res_not_found = process_transaction_recovery("TX_NOT_FOUND", db_session, use_llm=False)
+    assert res_not_found["status"] == "ERROR"
+    assert "not found" in res_not_found["reason"]
+
+    tx_bad = Transaction(
+        transaction_id="TX_BAD",
+        customer_id="C00001",
+        amount=-500.0,  # Invalid amount
+        payment_method="UPI",
+        status="FAILED",
+        failure_code="BANK_TIMEOUT",
+        retry_count=0,
+        timestamp=datetime.now()
+    )
+    db_session.add(tx_bad)
+    db_session.commit()
+
+    res_bad = process_transaction_recovery("TX_BAD", db_session, use_llm=False)
+    assert res_bad["status"] == "ERROR"
+    assert "Invalid transaction amount" in res_bad["reason"]

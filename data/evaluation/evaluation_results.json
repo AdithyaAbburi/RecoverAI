@@ -16,10 +16,10 @@
     "transaction_recovery_rate": 51.5,
     "revenue_recovered": 6815233.05,
     "revenue_recovery_rate": 46.53,
-    "operational_cost": 30072.0,
-    "net_recovery": 6785161.05,
-    "escalated_cases": 295,
-    "avg_attempts_per_tx": 1.4
+    "operational_cost": 24772.0,
+    "net_recovery": 6790461.05,
+    "escalated_cases": 242,
+    "avg_attempts_per_tx": 1.35
   },
   "recoverai_agent": {
     "transactions_recovered": 661,
@@ -39,7 +39,7 @@
   },
   "ai_contribution": {
     "llm_cases_evaluated": 2,
-    "decision_changes_count": 733,
-    "decision_change_rate": 73.3
+    "decision_changes_count": 786,
+    "decision_change_rate": 78.6
   }
 }

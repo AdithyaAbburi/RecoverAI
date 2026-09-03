@@ -64,7 +64,7 @@ def get_simple_rules_action(failure_code: str, attempts_count: int) -> str:
     else:
         return "escalate_to_human"
 
-def select_best_mathematical_action(erv_table: dict, transaction: Transaction, customer: Customer, attempts_count: int) -> str:
+def select_best_mathematical_action(erv_table: dict, transaction: Transaction, customer: Customer, attempts_count: int, previous_actions: list = None) -> str:
     """
     Select the action that maximizes Expected Net Recovery, filtered by policy validation.
     This acts as our intelligent, context-aware ERV-driven decision maker.
@@ -77,7 +77,7 @@ def select_best_mathematical_action(erv_table: dict, transaction: Transaction, c
         if action in ["escalate_to_human", "stop_recovery"]:
             continue
             
-        policy = check_policy(action, transaction, customer, attempts_count=attempts_count)
+        policy = check_policy(action, transaction, customer, attempts_count=attempts_count, previous_actions=previous_actions)
         if policy["allowed"] and policy["result"] == "APPROVED":
             ner = erv_table[action]["expected_net"]
             if ner > best_ner:
@@ -92,9 +92,18 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
     Runs a self-contained agent loop (up to 2 automated attempts) internally.
     Follows: Risk scoring -> LLM Diagnosis -> ERV Ranking (using LLM cause) -> Policy Guardrails -> Tool.
     """
+    if not transaction_id or not isinstance(transaction_id, str):
+        return {"status": "ERROR", "reason": "Invalid or missing transaction ID."}
+
     transaction = db.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
     if not transaction:
-        return {"status": "ERROR", "reason": "Transaction not found."}
+        return {"status": "ERROR", "reason": f"Transaction '{transaction_id}' not found."}
+
+    if transaction.amount is None or transaction.amount < 0:
+        return {"status": "ERROR", "reason": f"Invalid transaction amount: {transaction.amount}."}
+
+    if transaction.retry_count is not None and transaction.retry_count < 0:
+        return {"status": "ERROR", "reason": f"Invalid retry count: {transaction.retry_count}."}
 
     if transaction.status.upper() == "SUCCESS":
         return {"status": "SUCCESS", "message": "Transaction is already successful."}
@@ -152,6 +161,7 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
             AuditLog.stage == "execution"
         ).order_by(AuditLog.id.asc()).all()
         history_list = [{"action": h.agent_action, "result": h.tool_result, "reason": h.reason} for h in history_logs]
+        previous_actions_list = [h.agent_action for h in history_logs if h.agent_action]
 
         if rules_only:
             # Rules-Only Run uses the simple, static mapping
@@ -200,7 +210,7 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
                 erv_table = calculate_ervs(transaction.amount, std_code, success_rate, ltv)
                 
                 # Economic Ranking selects the action that maximizes net recovery value
-                recommended_action = select_best_mathematical_action(erv_table, transaction, customer, attempts_count)
+                recommended_action = select_best_mathematical_action(erv_table, transaction, customer, attempts_count, previous_actions=previous_actions_list)
                 reason = diagnosis["reason"]
                 why_not_alternatives = diagnosis.get("why_not_alternatives", "")
             else:
@@ -208,7 +218,7 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
                 root_cause = get_root_cause_by_failure_code(transaction.failure_code)
                 std_code = get_standard_failure_code_from_cause(root_cause)
                 erv_table = calculate_ervs(transaction.amount, std_code, success_rate, ltv)
-                recommended_action = select_best_mathematical_action(erv_table, transaction, customer, attempts_count)
+                recommended_action = select_best_mathematical_action(erv_table, transaction, customer, attempts_count, previous_actions=previous_actions_list)
                 reason = f"ERV optimizer selected action with highest Expected Net Recovery (₹{erv_table[recommended_action]['expected_net']:,.2f}) based on cause: {root_cause}."
                 why_not_alternatives = "Other actions have lower expected net recovery or are blocked by safety policies."
 
@@ -225,7 +235,7 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
 
         # --- STEP 3: POLICY GUARDRAILS ---
         start_time = time.perf_counter()
-        policy = check_policy(recommended_action, transaction, customer, attempts_count=attempts_count)
+        policy = check_policy(recommended_action, transaction, customer, attempts_count=attempts_count, previous_actions=previous_actions_list)
         policy_latency = (time.perf_counter() - start_time) * 1000.0
 
         log_audit(

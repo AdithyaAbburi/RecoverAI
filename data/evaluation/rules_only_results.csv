@@ -3,13 +3,13 @@ TX00001,51289.39,LIMIT_EXCEEDED,65,HIGH,escalate_to_human,FAILURE,0.0,1,Case esc
 TX00002,4104.17,LIMIT_EXCEEDED,26,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00003,9615.62,TEMPORARY_BANK_ERROR,33,MEDIUM,retry_payment,SUCCESS,9615.62,1,"Action 'retry_payment' executed successfully. Recovered INR 9,615.62.",1.0
 TX00004,11159.59,CUSTOMER_DECLINED,32,MEDIUM,send_payment_reminder,SUCCESS,11159.59,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 11,159.59.",1.0
-TX00005,5946.99,CARD_EXPIRED,24,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00005,5946.99,CARD_EXPIRED,24,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00006,543.87,LIMIT_EXCEEDED,27,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00007,14299.43,BANK_TIMEOUT,39,MEDIUM,retry_payment,SUCCESS,14299.43,1,"Action 'retry_payment' executed successfully. Recovered INR 14,299.43.",1.0
 TX00008,22101.81,CARD_EXPIRED,33,MEDIUM,create_payment_link,SUCCESS,22101.81,1,"Action 'create_payment_link' executed successfully. Recovered INR 22,101.81.",2.0
 TX00009,36532.64,BANK_TIMEOUT,49,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00010,24146.08,INSUFFICIENT_FUNDS,46,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00011,19745.01,INSUFFICIENT_FUNDS,29,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00010,24146.08,INSUFFICIENT_FUNDS,56,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00011,19745.01,INSUFFICIENT_FUNDS,54,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00012,1315.27,TEMPORARY_BANK_ERROR,28,LOW,retry_payment,SUCCESS,1315.27,1,"Action 'retry_payment' executed successfully. Recovered INR 1,315.27.",1.0
 TX00013,13847.93,TEMPORARY_BANK_ERROR,33,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00014,11094.49,BANK_TIMEOUT,27,LOW,retry_payment,SUCCESS,11094.49,1,"Action 'retry_payment' executed successfully. Recovered INR 11,094.49.",1.0
@@ -37,7 +37,7 @@ TX00035,13292.58,BANK_TIMEOUT,21,LOW,retry_payment,SUCCESS,13292.58,1,"Action 'r
 TX00036,9293.15,TEMPORARY_BANK_ERROR,39,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00037,6403.29,INSUFFICIENT_FUNDS,39,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00038,20938.75,CARD_EXPIRED,36,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
-TX00039,19527.86,LIMIT_EXCEEDED,47,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00039,19527.86,LIMIT_EXCEEDED,57,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00040,989.28,BANK_TIMEOUT,9,LOW,retry_payment,SUCCESS,989.28,1,Action 'retry_payment' executed successfully. Recovered INR 989.28.,1.0
 TX00041,20144.09,CARD_EXPIRED,50,MEDIUM,create_payment_link,SUCCESS,20144.09,1,"Action 'create_payment_link' executed successfully. Recovered INR 20,144.09.",2.0
 TX00042,11699.55,INSUFFICIENT_FUNDS,27,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -55,12 +55,12 @@ TX00053,7779.88,LIMIT_EXCEEDED,50,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case es
 TX00054,24574.24,TEMPORARY_BANK_ERROR,37,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00055,8147.3,BANK_TIMEOUT,25,LOW,retry_payment,SUCCESS,8147.3,1,"Action 'retry_payment' executed successfully. Recovered INR 8,147.30.",1.0
 TX00056,12445.68,BANK_TIMEOUT,16,LOW,retry_payment,SUCCESS,12445.68,1,"Action 'retry_payment' executed successfully. Recovered INR 12,445.68.",1.0
-TX00057,1420.5,CARD_EXPIRED,46,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00057,1420.5,CARD_EXPIRED,46,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00058,25226.81,TEMPORARY_BANK_ERROR,52,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00059,4575.29,TEMPORARY_BANK_ERROR,23,LOW,retry_payment,SUCCESS,4575.29,1,"Action 'retry_payment' executed successfully. Recovered INR 4,575.29.",1.0
 TX00060,22166.57,TEMPORARY_BANK_ERROR,50,MEDIUM,retry_payment,SUCCESS,22166.57,1,"Action 'retry_payment' executed successfully. Recovered INR 22,166.57.",1.0
 TX00061,22904.21,BANK_TIMEOUT,24,LOW,retry_payment,SUCCESS,22904.21,1,"Action 'retry_payment' executed successfully. Recovered INR 22,904.21.",1.0
-TX00062,4623.23,CARD_EXPIRED,26,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00062,4623.23,CARD_EXPIRED,26,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00063,15704.49,CUSTOMER_DECLINED,42,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00064,10669.32,BANK_TIMEOUT,36,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00065,48147.93,INSUFFICIENT_FUNDS,64,HIGH,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
@@ -71,11 +71,11 @@ TX00069,22627.87,INSUFFICIENT_FUNDS,34,MEDIUM,stop_recovery,FAILURE,0.0,2,Recove
 TX00070,2971.49,INSUFFICIENT_FUNDS,34,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00071,4762.72,LIMIT_EXCEEDED,31,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00072,19000.18,BANK_TIMEOUT,23,LOW,retry_payment,SUCCESS,19000.18,1,"Action 'retry_payment' executed successfully. Recovered INR 19,000.18.",1.0
-TX00073,7046.75,BANK_TIMEOUT,31,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00074,9911.46,CARD_EXPIRED,44,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00075,22733.93,CARD_EXPIRED,34,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00073,7046.75,BANK_TIMEOUT,41,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00074,9911.46,CARD_EXPIRED,44,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
+TX00075,22733.93,CARD_EXPIRED,34,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00076,21546.85,CUSTOMER_DECLINED,38,MEDIUM,send_payment_reminder,SUCCESS,21546.85,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 21,546.85.",1.0
-TX00077,11252.78,TEMPORARY_BANK_ERROR,17,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00077,11252.78,TEMPORARY_BANK_ERROR,37,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00078,14570.24,TEMPORARY_BANK_ERROR,24,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00079,16645.8,INSUFFICIENT_FUNDS,27,LOW,send_payment_reminder,SUCCESS,16645.8,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 16,645.80.",1.0
 TX00080,14123.6,BANK_TIMEOUT,20,LOW,retry_payment,SUCCESS,14123.6,1,"Action 'retry_payment' executed successfully. Recovered INR 14,123.60.",1.0
@@ -93,7 +93,7 @@ TX00091,3785.12,BANK_TIMEOUT,7,LOW,retry_payment,SUCCESS,3785.12,1,"Action 'retr
 TX00092,12903.32,INSUFFICIENT_FUNDS,36,MEDIUM,send_payment_reminder,SUCCESS,12903.32,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 12,903.32.",1.0
 TX00093,15153.32,INSUFFICIENT_FUNDS,44,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00094,24011.68,INSUFFICIENT_FUNDS,34,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
-TX00095,17616.46,CARD_EXPIRED,63,HIGH,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00095,17616.46,CARD_EXPIRED,63,HIGH,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00096,7590.14,LIMIT_EXCEEDED,25,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00097,17441.21,CARD_EXPIRED,38,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00098,17827.02,CARD_EXPIRED,31,MEDIUM,create_payment_link,SUCCESS,17827.02,1,"Action 'create_payment_link' executed successfully. Recovered INR 17,827.02.",2.0
@@ -102,7 +102,7 @@ TX00100,4072.85,INSUFFICIENT_FUNDS,37,MEDIUM,stop_recovery,FAILURE,0.0,2,Recover
 TX00101,11543.31,LIMIT_EXCEEDED,52,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00102,6297.33,TEMPORARY_BANK_ERROR,19,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00103,24310.07,CUSTOMER_DECLINED,37,MEDIUM,send_payment_reminder,SUCCESS,24310.07,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 24,310.07.",1.0
-TX00104,19554.57,CARD_EXPIRED,37,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00104,19554.57,CARD_EXPIRED,37,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00105,13837.41,BANK_TIMEOUT,16,LOW,retry_payment,SUCCESS,13837.41,1,"Action 'retry_payment' executed successfully. Recovered INR 13,837.41.",1.0
 TX00106,23984.4,INSUFFICIENT_FUNDS,46,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00107,4426.66,BANK_TIMEOUT,26,LOW,retry_payment,SUCCESS,4426.66,1,"Action 'retry_payment' executed successfully. Recovered INR 4,426.66.",1.0
@@ -114,7 +114,7 @@ TX00112,6364.49,INSUFFICIENT_FUNDS,39,MEDIUM,stop_recovery,FAILURE,0.0,2,Recover
 TX00113,19927.44,TEMPORARY_BANK_ERROR,27,LOW,retry_payment,SUCCESS,19927.44,1,"Action 'retry_payment' executed successfully. Recovered INR 19,927.44.",1.0
 TX00114,12913.15,BANK_TIMEOUT,28,LOW,retry_payment,SUCCESS,12913.15,1,"Action 'retry_payment' executed successfully. Recovered INR 12,913.15.",1.0
 TX00115,4584.43,INSUFFICIENT_FUNDS,28,LOW,send_payment_reminder,SUCCESS,4584.43,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 4,584.43.",1.0
-TX00116,21604.8,CARD_EXPIRED,48,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00116,21604.8,CARD_EXPIRED,48,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00117,23429.93,INSUFFICIENT_FUNDS,46,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00118,1824.14,INSUFFICIENT_FUNDS,18,LOW,send_payment_reminder,SUCCESS,1824.14,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 1,824.14.",1.0
 TX00119,15877.3,TEMPORARY_BANK_ERROR,20,LOW,retry_payment,SUCCESS,15877.3,1,"Action 'retry_payment' executed successfully. Recovered INR 15,877.30.",1.0
@@ -128,10 +128,10 @@ TX00126,16871.86,LIMIT_EXCEEDED,35,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case e
 TX00127,2143.65,BANK_TIMEOUT,6,LOW,retry_payment,SUCCESS,2143.65,1,"Action 'retry_payment' executed successfully. Recovered INR 2,143.65.",1.0
 TX00128,2941.1,BANK_TIMEOUT,22,LOW,retry_payment,SUCCESS,2941.1,1,"Action 'retry_payment' executed successfully. Recovered INR 2,941.10.",1.0
 TX00129,17420.38,INSUFFICIENT_FUNDS,28,LOW,send_payment_reminder,SUCCESS,17420.38,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 17,420.38.",1.0
-TX00130,19670.11,CARD_EXPIRED,39,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00130,19670.11,CARD_EXPIRED,39,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00131,21920.41,INSUFFICIENT_FUNDS,48,MEDIUM,send_payment_reminder,SUCCESS,21920.41,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 21,920.41.",1.0
 TX00132,15301.72,LIMIT_EXCEEDED,29,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00133,2339.76,CARD_EXPIRED,21,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00133,2339.76,CARD_EXPIRED,21,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00134,5691.36,INSUFFICIENT_FUNDS,38,MEDIUM,send_payment_reminder,SUCCESS,5691.36,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 5,691.36.",1.0
 TX00135,5948.68,CARD_EXPIRED,24,LOW,create_payment_link,SUCCESS,5948.68,1,"Action 'create_payment_link' executed successfully. Recovered INR 5,948.68.",2.0
 TX00136,12752.88,TEMPORARY_BANK_ERROR,48,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
@@ -142,7 +142,7 @@ TX00140,24129.97,CARD_EXPIRED,38,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery ter
 TX00141,16449.68,INSUFFICIENT_FUNDS,27,LOW,send_payment_reminder,SUCCESS,16449.68,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 16,449.68.",1.0
 TX00142,5938.74,TEMPORARY_BANK_ERROR,19,LOW,retry_payment,SUCCESS,5938.74,1,"Action 'retry_payment' executed successfully. Recovered INR 5,938.74.",1.0
 TX00143,73511.88,BANK_TIMEOUT,42,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00144,9338.24,CARD_EXPIRED,41,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00144,9338.24,CARD_EXPIRED,41,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00145,12183.08,INSUFFICIENT_FUNDS,24,LOW,send_payment_reminder,SUCCESS,12183.08,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 12,183.08.",1.0
 TX00146,14953.28,INSUFFICIENT_FUNDS,22,LOW,send_payment_reminder,SUCCESS,14953.28,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 14,953.28.",1.0
 TX00147,4892.92,INSUFFICIENT_FUNDS,28,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -159,7 +159,7 @@ TX00157,16398.45,TEMPORARY_BANK_ERROR,15,LOW,retry_payment,SUCCESS,16398.45,1,"A
 TX00158,10197.88,INSUFFICIENT_FUNDS,48,MEDIUM,send_payment_reminder,SUCCESS,10197.88,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 10,197.88.",1.0
 TX00159,12303.75,INSUFFICIENT_FUNDS,35,MEDIUM,send_payment_reminder,SUCCESS,12303.75,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 12,303.75.",1.0
 TX00160,6106.42,LIMIT_EXCEEDED,59,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00161,15482.22,CARD_EXPIRED,32,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00161,15482.22,CARD_EXPIRED,32,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00162,15145.99,BANK_TIMEOUT,21,LOW,retry_payment,SUCCESS,15145.99,1,"Action 'retry_payment' executed successfully. Recovered INR 15,145.99.",1.0
 TX00163,10275.73,INSUFFICIENT_FUNDS,38,MEDIUM,send_payment_reminder,SUCCESS,10275.73,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 10,275.73.",1.0
 TX00164,761.33,LIMIT_EXCEEDED,30,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
@@ -177,12 +177,12 @@ TX00175,7065.45,INSUFFICIENT_FUNDS,21,LOW,stop_recovery,FAILURE,0.0,2,Recovery t
 TX00176,21794.92,TEMPORARY_BANK_ERROR,43,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00177,3425.04,INSUFFICIENT_FUNDS,15,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00178,21191.46,INSUFFICIENT_FUNDS,45,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
-TX00179,19148.0,TEMPORARY_BANK_ERROR,24,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00179,19148.0,TEMPORARY_BANK_ERROR,48,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00180,1294.53,TEMPORARY_BANK_ERROR,18,LOW,retry_payment,SUCCESS,1294.53,1,"Action 'retry_payment' executed successfully. Recovered INR 1,294.53.",1.0
 TX00181,17316.74,INSUFFICIENT_FUNDS,27,LOW,send_payment_reminder,SUCCESS,17316.74,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 17,316.74.",1.0
 TX00182,6836.7,TEMPORARY_BANK_ERROR,34,MEDIUM,retry_payment,SUCCESS,6836.7,1,"Action 'retry_payment' executed successfully. Recovered INR 6,836.70.",1.0
 TX00183,5636.99,CARD_EXPIRED,23,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
-TX00184,14551.78,CARD_EXPIRED,51,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00184,14551.78,CARD_EXPIRED,51,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00185,5283.94,BANK_TIMEOUT,36,MEDIUM,retry_payment,SUCCESS,5283.94,1,"Action 'retry_payment' executed successfully. Recovered INR 5,283.94.",1.0
 TX00186,21225.11,INSUFFICIENT_FUNDS,30,LOW,send_payment_reminder,SUCCESS,21225.11,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 21,225.11.",1.0
 TX00187,1664.11,INSUFFICIENT_FUNDS,11,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -203,17 +203,17 @@ TX00201,9425.11,BANK_TIMEOUT,11,LOW,retry_payment,SUCCESS,9425.11,1,"Action 'ret
 TX00202,11948.43,INSUFFICIENT_FUNDS,35,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00203,15066.89,INSUFFICIENT_FUNDS,29,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00204,4483.78,INSUFFICIENT_FUNDS,20,LOW,send_payment_reminder,SUCCESS,4483.78,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 4,483.78.",1.0
-TX00205,6345.31,CARD_EXPIRED,46,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00205,6345.31,CARD_EXPIRED,46,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00206,10574.85,BANK_TIMEOUT,16,LOW,retry_payment,SUCCESS,10574.85,1,"Action 'retry_payment' executed successfully. Recovered INR 10,574.85.",1.0
 TX00207,15695.19,TEMPORARY_BANK_ERROR,52,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00208,17950.78,BANK_TIMEOUT,16,LOW,retry_payment,SUCCESS,17950.78,1,"Action 'retry_payment' executed successfully. Recovered INR 17,950.78.",1.0
 TX00209,19671.7,CUSTOMER_DECLINED,52,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00210,18813.9,BANK_TIMEOUT,16,LOW,retry_payment,SUCCESS,18813.9,1,"Action 'retry_payment' executed successfully. Recovered INR 18,813.90.",1.0
-TX00211,21033.56,CARD_EXPIRED,48,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00211,21033.56,CARD_EXPIRED,48,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00212,24766.66,INSUFFICIENT_FUNDS,50,MEDIUM,send_payment_reminder,SUCCESS,24766.66,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 24,766.66.",1.0
 TX00213,17127.19,LIMIT_EXCEEDED,55,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00214,12242.0,BANK_TIMEOUT,15,LOW,retry_payment,SUCCESS,12242.0,1,"Action 'retry_payment' executed successfully. Recovered INR 12,242.00.",1.0
-TX00215,11093.54,BANK_TIMEOUT,17,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00215,11093.54,BANK_TIMEOUT,37,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00216,27309.64,INSUFFICIENT_FUNDS,34,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00217,2730.2,TEMPORARY_BANK_ERROR,17,LOW,retry_payment,SUCCESS,2730.2,1,"Action 'retry_payment' executed successfully. Recovered INR 2,730.20.",1.0
 TX00218,19811.78,INSUFFICIENT_FUNDS,22,LOW,send_payment_reminder,SUCCESS,19811.78,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 19,811.78.",1.0
@@ -223,11 +223,11 @@ TX00221,11928.83,LIMIT_EXCEEDED,27,LOW,escalate_to_human,FAILURE,0.0,1,Case esca
 TX00222,6925.72,INSUFFICIENT_FUNDS,21,LOW,send_payment_reminder,SUCCESS,6925.72,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 6,925.72.",1.0
 TX00223,15621.52,CARD_EXPIRED,39,MEDIUM,create_payment_link,SUCCESS,15621.52,1,"Action 'create_payment_link' executed successfully. Recovered INR 15,621.52.",2.0
 TX00224,17170.67,BANK_TIMEOUT,30,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00225,16576.94,CARD_EXPIRED,33,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00225,16576.94,CARD_EXPIRED,33,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00226,1276.34,CARD_EXPIRED,36,MEDIUM,create_payment_link,SUCCESS,1276.34,1,"Action 'create_payment_link' executed successfully. Recovered INR 1,276.34.",2.0
-TX00227,9439.04,CARD_EXPIRED,41,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00227,9439.04,CARD_EXPIRED,41,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00228,16089.57,INSUFFICIENT_FUNDS,42,MEDIUM,send_payment_reminder,SUCCESS,16089.57,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 16,089.57.",1.0
-TX00229,6985.9,CARD_EXPIRED,39,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00229,6985.9,CARD_EXPIRED,39,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00230,18194.2,TEMPORARY_BANK_ERROR,16,LOW,retry_payment,SUCCESS,18194.2,1,"Action 'retry_payment' executed successfully. Recovered INR 18,194.20.",1.0
 TX00231,14125.53,INSUFFICIENT_FUNDS,26,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00232,16731.91,BANK_TIMEOUT,15,LOW,retry_payment,SUCCESS,16731.91,1,"Action 'retry_payment' executed successfully. Recovered INR 16,731.91.",1.0
@@ -239,11 +239,11 @@ TX00237,5914.04,BANK_TIMEOUT,18,LOW,escalate_to_human,FAILURE,0.0,3,Case escalat
 TX00238,14424.3,BANK_TIMEOUT,21,LOW,retry_payment,SUCCESS,14424.3,1,"Action 'retry_payment' executed successfully. Recovered INR 14,424.30.",1.0
 TX00239,6596.51,CARD_EXPIRED,29,LOW,create_payment_link,SUCCESS,6596.51,1,"Action 'create_payment_link' executed successfully. Recovered INR 6,596.51.",2.0
 TX00240,18155.36,BANK_TIMEOUT,41,MEDIUM,retry_payment,SUCCESS,18155.36,1,"Action 'retry_payment' executed successfully. Recovered INR 18,155.36.",1.0
-TX00241,7829.6,CARD_EXPIRED,47,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00241,7829.6,CARD_EXPIRED,47,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00242,11097.03,LIMIT_EXCEEDED,27,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00243,15925.52,TEMPORARY_BANK_ERROR,15,LOW,retry_payment,SUCCESS,15925.52,1,"Action 'retry_payment' executed successfully. Recovered INR 15,925.52.",1.0
 TX00244,5887.45,INSUFFICIENT_FUNDS,24,LOW,send_payment_reminder,SUCCESS,5887.45,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 5,887.45.",1.0
-TX00245,5918.89,CARD_EXPIRED,49,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00245,5918.89,CARD_EXPIRED,49,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00246,6906.41,INSUFFICIENT_FUNDS,32,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00247,12403.81,INSUFFICIENT_FUNDS,27,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00248,6996.67,TEMPORARY_BANK_ERROR,31,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
@@ -268,7 +268,7 @@ TX00266,21975.22,CUSTOMER_DECLINED,60,MEDIUM,escalate_to_human,FAILURE,0.0,1,Cas
 TX00267,5085.58,BANK_TIMEOUT,8,LOW,retry_payment,SUCCESS,5085.58,1,"Action 'retry_payment' executed successfully. Recovered INR 5,085.58.",1.0
 TX00268,15051.2,INSUFFICIENT_FUNDS,29,LOW,send_payment_reminder,SUCCESS,15051.2,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 15,051.20.",1.0
 TX00269,15254.97,INSUFFICIENT_FUNDS,19,LOW,send_payment_reminder,SUCCESS,15254.97,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 15,254.97.",1.0
-TX00270,6021.06,CARD_EXPIRED,24,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00270,6021.06,CARD_EXPIRED,24,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00271,18989.75,BANK_TIMEOUT,21,LOW,retry_payment,SUCCESS,18989.75,1,"Action 'retry_payment' executed successfully. Recovered INR 18,989.75.",1.0
 TX00272,10932.36,INSUFFICIENT_FUNDS,39,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00273,18616.22,INSUFFICIENT_FUNDS,24,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -301,8 +301,8 @@ TX00299,12248.49,INSUFFICIENT_FUNDS,24,LOW,send_payment_reminder,SUCCESS,12248.4
 TX00300,10600.45,BANK_TIMEOUT,14,LOW,retry_payment,SUCCESS,10600.45,1,"Action 'retry_payment' executed successfully. Recovered INR 10,600.45.",1.0
 TX00301,956.73,INSUFFICIENT_FUNDS,11,LOW,send_payment_reminder,SUCCESS,956.73,1,Action 'send_payment_reminder' executed successfully. Recovered INR 956.73.,1.0
 TX00302,8775.32,INSUFFICIENT_FUNDS,25,LOW,send_payment_reminder,SUCCESS,8775.32,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 8,775.32.",1.0
-TX00303,3351.01,CARD_EXPIRED,37,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00304,6298.47,CARD_EXPIRED,31,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00303,3351.01,CARD_EXPIRED,37,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
+TX00304,6298.47,CARD_EXPIRED,31,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00305,1412.44,LIMIT_EXCEEDED,43,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00306,8798.83,CARD_EXPIRED,40,MEDIUM,create_payment_link,SUCCESS,8798.83,1,"Action 'create_payment_link' executed successfully. Recovered INR 8,798.83.",2.0
 TX00307,23387.78,CUSTOMER_DECLINED,36,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -317,7 +317,7 @@ TX00315,8123.55,CARD_EXPIRED,32,MEDIUM,create_payment_link,SUCCESS,8123.55,1,"Ac
 TX00316,2767.15,INSUFFICIENT_FUNDS,22,LOW,send_payment_reminder,SUCCESS,2767.15,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 2,767.15.",1.0
 TX00317,23617.74,LIMIT_EXCEEDED,34,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00318,16730.41,INSUFFICIENT_FUNDS,23,LOW,send_payment_reminder,SUCCESS,16730.41,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 16,730.41.",1.0
-TX00319,21136.7,CARD_EXPIRED,38,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00319,21136.7,CARD_EXPIRED,38,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00320,19940.89,INSUFFICIENT_FUNDS,29,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00321,6321.24,INSUFFICIENT_FUNDS,26,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00322,14919.67,INSUFFICIENT_FUNDS,44,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -335,12 +335,12 @@ TX00333,24661.31,BANK_TIMEOUT,20,LOW,retry_payment,SUCCESS,24661.31,1,"Action 'r
 TX00334,15707.26,INSUFFICIENT_FUNDS,26,LOW,send_payment_reminder,SUCCESS,15707.26,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 15,707.26.",1.0
 TX00335,15251.59,INSUFFICIENT_FUNDS,34,MEDIUM,send_payment_reminder,SUCCESS,15251.59,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 15,251.59.",1.0
 TX00336,13826.46,BANK_TIMEOUT,13,LOW,retry_payment,SUCCESS,13826.46,1,"Action 'retry_payment' executed successfully. Recovered INR 13,826.46.",1.0
-TX00337,23966.4,BANK_TIMEOUT,24,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00337,23966.4,BANK_TIMEOUT,44,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00338,2408.92,BANK_TIMEOUT,11,LOW,retry_payment,SUCCESS,2408.92,1,"Action 'retry_payment' executed successfully. Recovered INR 2,408.92.",1.0
 TX00339,15961.98,TEMPORARY_BANK_ERROR,50,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00340,22607.74,CARD_EXPIRED,49,MEDIUM,create_payment_link,SUCCESS,22607.74,1,"Action 'create_payment_link' executed successfully. Recovered INR 22,607.74.",2.0
 TX00341,75757.55,TEMPORARY_BANK_ERROR,35,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00342,1759.53,CARD_EXPIRED,33,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00342,1759.53,CARD_EXPIRED,33,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00343,21275.26,TEMPORARY_BANK_ERROR,18,LOW,retry_payment,SUCCESS,21275.26,1,"Action 'retry_payment' executed successfully. Recovered INR 21,275.26.",1.0
 TX00344,15233.25,CARD_EXPIRED,39,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00345,6263.18,CARD_EXPIRED,34,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -359,14 +359,14 @@ TX00357,16615.66,INSUFFICIENT_FUNDS,27,LOW,stop_recovery,FAILURE,0.0,1,Recovery 
 TX00358,8391.06,CARD_EXPIRED,25,LOW,create_payment_link,SUCCESS,8391.06,1,"Action 'create_payment_link' executed successfully. Recovered INR 8,391.06.",2.0
 TX00359,20332.34,INSUFFICIENT_FUNDS,29,LOW,send_payment_reminder,SUCCESS,20332.34,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 20,332.34.",1.0
 TX00360,3145.7,CARD_EXPIRED,29,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
-TX00361,2279.24,CARD_EXPIRED,26,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00361,2279.24,CARD_EXPIRED,26,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00362,521.17,INSUFFICIENT_FUNDS,10,LOW,send_payment_reminder,SUCCESS,521.17,1,Action 'send_payment_reminder' executed successfully. Recovered INR 521.17.,1.0
 TX00363,13075.35,INSUFFICIENT_FUNDS,26,LOW,send_payment_reminder,SUCCESS,13075.35,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 13,075.35.",1.0
 TX00364,9879.94,CARD_EXPIRED,44,MEDIUM,create_payment_link,SUCCESS,9879.94,1,"Action 'create_payment_link' executed successfully. Recovered INR 9,879.94.",2.0
 TX00365,7889.01,INSUFFICIENT_FUNDS,15,LOW,send_payment_reminder,SUCCESS,7889.01,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 7,889.01.",1.0
 TX00366,11715.2,INSUFFICIENT_FUNDS,49,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00367,17479.53,INSUFFICIENT_FUNDS,30,LOW,send_payment_reminder,SUCCESS,17479.53,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 17,479.53.",1.0
-TX00368,3914.61,BANK_TIMEOUT,29,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00368,3914.61,BANK_TIMEOUT,39,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00369,12692.29,CUSTOMER_DECLINED,38,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00370,1544.67,TEMPORARY_BANK_ERROR,41,MEDIUM,retry_payment,SUCCESS,1544.67,1,"Action 'retry_payment' executed successfully. Recovered INR 1,544.67.",1.0
 TX00371,13592.1,INSUFFICIENT_FUNDS,21,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -385,14 +385,14 @@ TX00383,3249.37,INSUFFICIENT_FUNDS,19,LOW,stop_recovery,FAILURE,0.0,1,Recovery t
 TX00384,1552.02,TEMPORARY_BANK_ERROR,6,LOW,retry_payment,SUCCESS,1552.02,1,"Action 'retry_payment' executed successfully. Recovered INR 1,552.02.",1.0
 TX00385,65722.93,BANK_TIMEOUT,40,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00386,18102.24,INSUFFICIENT_FUNDS,46,MEDIUM,send_payment_reminder,SUCCESS,18102.24,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 18,102.24.",1.0
-TX00387,3187.24,BANK_TIMEOUT,19,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00387,3187.24,BANK_TIMEOUT,39,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00388,12319.55,BANK_TIMEOUT,27,LOW,retry_payment,SUCCESS,12319.55,1,"Action 'retry_payment' executed successfully. Recovered INR 12,319.55.",1.0
 TX00389,5237.38,CUSTOMER_DECLINED,36,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00390,3830.64,INSUFFICIENT_FUNDS,19,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00391,19887.4,LIMIT_EXCEEDED,32,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00392,12436.81,INSUFFICIENT_FUNDS,26,LOW,send_payment_reminder,SUCCESS,12436.81,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 12,436.81.",1.0
 TX00393,6518.36,INSUFFICIENT_FUNDS,24,LOW,send_payment_reminder,SUCCESS,6518.36,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 6,518.36.",1.0
-TX00394,1579.07,CARD_EXPIRED,31,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00394,1579.07,CARD_EXPIRED,31,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00395,17498.35,INSUFFICIENT_FUNDS,38,MEDIUM,send_payment_reminder,SUCCESS,17498.35,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 17,498.35.",1.0
 TX00396,3738.17,TEMPORARY_BANK_ERROR,14,LOW,retry_payment,SUCCESS,3738.17,1,"Action 'retry_payment' executed successfully. Recovered INR 3,738.17.",1.0
 TX00397,21433.3,INSUFFICIENT_FUNDS,30,LOW,send_payment_reminder,SUCCESS,21433.3,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 21,433.30.",1.0
@@ -400,7 +400,7 @@ TX00398,21765.86,INSUFFICIENT_FUNDS,30,LOW,send_payment_reminder,SUCCESS,21765.8
 TX00399,17354.32,BANK_TIMEOUT,40,MEDIUM,retry_payment,SUCCESS,17354.32,1,"Action 'retry_payment' executed successfully. Recovered INR 17,354.32.",1.0
 TX00400,5554.37,BANK_TIMEOUT,8,LOW,retry_payment,SUCCESS,5554.37,1,"Action 'retry_payment' executed successfully. Recovered INR 5,554.37.",1.0
 TX00401,16961.53,BANK_TIMEOUT,22,LOW,retry_payment,SUCCESS,16961.53,1,"Action 'retry_payment' executed successfully. Recovered INR 16,961.53.",1.0
-TX00402,17698.92,CARD_EXPIRED,66,HIGH,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00402,17698.92,CARD_EXPIRED,66,HIGH,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00403,18492.07,LIMIT_EXCEEDED,31,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00404,22409.57,INSUFFICIENT_FUNDS,30,LOW,send_payment_reminder,SUCCESS,22409.57,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 22,409.57.",1.0
 TX00405,12735.38,INSUFFICIENT_FUNDS,33,MEDIUM,send_payment_reminder,SUCCESS,12735.38,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 12,735.38.",1.0
@@ -423,7 +423,7 @@ TX00421,19217.12,BANK_TIMEOUT,22,LOW,retry_payment,SUCCESS,19217.12,1,"Action 'r
 TX00422,10123.94,TEMPORARY_BANK_ERROR,19,LOW,retry_payment,SUCCESS,10123.94,1,"Action 'retry_payment' executed successfully. Recovered INR 10,123.94.",1.0
 TX00423,17969.52,TEMPORARY_BANK_ERROR,19,LOW,retry_payment,SUCCESS,17969.52,1,"Action 'retry_payment' executed successfully. Recovered INR 17,969.52.",1.0
 TX00424,21832.96,TEMPORARY_BANK_ERROR,43,MEDIUM,retry_payment,SUCCESS,21832.96,1,"Action 'retry_payment' executed successfully. Recovered INR 21,832.96.",1.0
-TX00425,20158.42,CARD_EXPIRED,47,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00425,20158.42,CARD_EXPIRED,47,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00426,7898.84,CUSTOMER_DECLINED,27,LOW,send_payment_reminder,SUCCESS,7898.84,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 7,898.84.",1.0
 TX00427,60134.33,INSUFFICIENT_FUNDS,55,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00428,20807.72,INSUFFICIENT_FUNDS,22,LOW,send_payment_reminder,SUCCESS,20807.72,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 20,807.72.",1.0
@@ -434,7 +434,7 @@ TX00432,11140.07,INSUFFICIENT_FUNDS,20,LOW,stop_recovery,FAILURE,0.0,1,Recovery 
 TX00433,14536.43,BANK_TIMEOUT,14,LOW,retry_payment,SUCCESS,14536.43,1,"Action 'retry_payment' executed successfully. Recovered INR 14,536.43.",1.0
 TX00434,1790.48,INSUFFICIENT_FUNDS,16,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00435,23346.14,BANK_TIMEOUT,19,LOW,retry_payment,SUCCESS,23346.14,1,"Action 'retry_payment' executed successfully. Recovered INR 23,346.14.",1.0
-TX00436,8215.53,CARD_EXPIRED,50,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00436,8215.53,CARD_EXPIRED,50,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00437,9079.76,BANK_TIMEOUT,32,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00438,22723.23,TEMPORARY_BANK_ERROR,34,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00439,23740.88,CARD_EXPIRED,34,MEDIUM,create_payment_link,SUCCESS,23740.88,1,"Action 'create_payment_link' executed successfully. Recovered INR 23,740.88.",2.0
@@ -453,11 +453,11 @@ TX00451,19099.48,TEMPORARY_BANK_ERROR,44,MEDIUM,escalate_to_human,FAILURE,0.0,3,
 TX00452,11649.48,TEMPORARY_BANK_ERROR,22,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00453,10942.26,LIMIT_EXCEEDED,27,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00454,12496.22,TEMPORARY_BANK_ERROR,22,LOW,retry_payment,SUCCESS,12496.22,1,"Action 'retry_payment' executed successfully. Recovered INR 12,496.22.",1.0
-TX00455,14909.6,CARD_EXPIRED,34,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00455,14909.6,CARD_EXPIRED,34,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00456,15017.04,BANK_TIMEOUT,19,LOW,retry_payment,SUCCESS,15017.04,1,"Action 'retry_payment' executed successfully. Recovered INR 15,017.04.",1.0
 TX00457,18953.79,LIMIT_EXCEEDED,34,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00458,12978.51,CARD_EXPIRED,43,MEDIUM,create_payment_link,SUCCESS,12978.51,1,"Action 'create_payment_link' executed successfully. Recovered INR 12,978.51.",2.0
-TX00459,3784.44,CARD_EXPIRED,37,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00459,3784.44,CARD_EXPIRED,37,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00460,17072.59,TEMPORARY_BANK_ERROR,40,MEDIUM,retry_payment,SUCCESS,17072.59,1,"Action 'retry_payment' executed successfully. Recovered INR 17,072.59.",1.0
 TX00461,5427.13,INSUFFICIENT_FUNDS,45,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00462,23742.96,CUSTOMER_DECLINED,44,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -493,8 +493,8 @@ TX00491,1014.21,BANK_TIMEOUT,6,LOW,retry_payment,SUCCESS,1014.21,1,"Action 'retr
 TX00492,13986.56,INSUFFICIENT_FUNDS,23,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00493,6267.72,TEMPORARY_BANK_ERROR,24,LOW,retry_payment,SUCCESS,6267.72,1,"Action 'retry_payment' executed successfully. Recovered INR 6,267.72.",1.0
 TX00494,23346.27,TEMPORARY_BANK_ERROR,37,MEDIUM,retry_payment,SUCCESS,23346.27,1,"Action 'retry_payment' executed successfully. Recovered INR 23,346.27.",1.0
-TX00495,19208.48,CARD_EXPIRED,36,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00496,10576.26,CARD_EXPIRED,41,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00495,19208.48,CARD_EXPIRED,36,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
+TX00496,10576.26,CARD_EXPIRED,41,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00497,10769.24,CARD_EXPIRED,26,LOW,create_payment_link,SUCCESS,10769.24,1,"Action 'create_payment_link' executed successfully. Recovered INR 10,769.24.",2.0
 TX00498,4983.25,CARD_EXPIRED,23,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00499,2506.46,TEMPORARY_BANK_ERROR,22,LOW,retry_payment,SUCCESS,2506.46,1,"Action 'retry_payment' executed successfully. Recovered INR 2,506.46.",1.0
@@ -525,7 +525,7 @@ TX00523,1569.87,CUSTOMER_DECLINED,26,LOW,stop_recovery,FAILURE,0.0,2,Recovery te
 TX00524,1687.85,TEMPORARY_BANK_ERROR,26,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00525,6726.0,CUSTOMER_DECLINED,54,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00526,19519.62,INSUFFICIENT_FUNDS,47,MEDIUM,send_payment_reminder,SUCCESS,19519.62,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 19,519.62.",1.0
-TX00527,18455.7,LIMIT_EXCEEDED,38,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00527,18455.7,LIMIT_EXCEEDED,63,HIGH,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00528,12446.8,INSUFFICIENT_FUNDS,18,LOW,send_payment_reminder,SUCCESS,12446.8,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 12,446.80.",1.0
 TX00529,15478.37,INSUFFICIENT_FUNDS,41,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00530,16301.7,BANK_TIMEOUT,15,LOW,retry_payment,SUCCESS,16301.7,1,"Action 'retry_payment' executed successfully. Recovered INR 16,301.70.",1.0
@@ -552,7 +552,7 @@ TX00550,21106.56,TEMPORARY_BANK_ERROR,23,LOW,retry_payment,SUCCESS,21106.56,1,"A
 TX00551,4314.06,BANK_TIMEOUT,18,LOW,retry_payment,SUCCESS,4314.06,1,"Action 'retry_payment' executed successfully. Recovered INR 4,314.06.",1.0
 TX00552,25997.18,TEMPORARY_BANK_ERROR,21,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00553,28501.61,BANK_TIMEOUT,27,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00554,19651.21,CARD_EXPIRED,54,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00554,19651.21,CARD_EXPIRED,54,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00555,3041.07,LIMIT_EXCEEDED,22,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00556,15375.6,CARD_EXPIRED,34,MEDIUM,create_payment_link,SUCCESS,15375.6,1,"Action 'create_payment_link' executed successfully. Recovered INR 15,375.60.",2.0
 TX00557,4331.59,CARD_EXPIRED,38,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -582,16 +582,16 @@ TX00580,14451.06,INSUFFICIENT_FUNDS,41,MEDIUM,send_payment_reminder,SUCCESS,1445
 TX00581,1182.66,BANK_TIMEOUT,16,LOW,retry_payment,SUCCESS,1182.66,1,"Action 'retry_payment' executed successfully. Recovered INR 1,182.66.",1.0
 TX00582,5760.19,INSUFFICIENT_FUNDS,18,LOW,send_payment_reminder,SUCCESS,5760.19,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 5,760.19.",1.0
 TX00583,14482.64,INSUFFICIENT_FUNDS,44,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
-TX00584,12816.24,CARD_EXPIRED,28,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00585,15744.4,INSUFFICIENT_FUNDS,31,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00584,12816.24,CARD_EXPIRED,28,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
+TX00585,15744.4,INSUFFICIENT_FUNDS,51,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00586,22217.05,TEMPORARY_BANK_ERROR,43,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00587,3520.27,BANK_TIMEOUT,17,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00588,18813.63,LIMIT_EXCEEDED,31,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00589,5521.64,CARD_EXPIRED,23,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00589,5521.64,CARD_EXPIRED,23,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00590,14868.99,LIMIT_EXCEEDED,37,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00591,6775.14,CUSTOMER_DECLINED,22,LOW,send_payment_reminder,SUCCESS,6775.14,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 6,775.14.",1.0
 TX00592,2686.94,CUSTOMER_DECLINED,17,LOW,send_payment_reminder,SUCCESS,2686.94,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 2,686.94.",1.0
-TX00593,17904.54,TEMPORARY_BANK_ERROR,28,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00593,17904.54,TEMPORARY_BANK_ERROR,48,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00594,20696.89,BANK_TIMEOUT,39,MEDIUM,retry_payment,SUCCESS,20696.89,1,"Action 'retry_payment' executed successfully. Recovered INR 20,696.89.",1.0
 TX00595,9895.19,TEMPORARY_BANK_ERROR,26,LOW,retry_payment,SUCCESS,9895.19,1,"Action 'retry_payment' executed successfully. Recovered INR 9,895.19.",1.0
 TX00596,59844.77,TEMPORARY_BANK_ERROR,35,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
@@ -623,7 +623,7 @@ TX00621,19428.29,INSUFFICIENT_FUNDS,32,MEDIUM,send_payment_reminder,SUCCESS,1942
 TX00622,1980.76,TEMPORARY_BANK_ERROR,41,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00623,11282.81,INSUFFICIENT_FUNDS,52,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00624,7695.97,INSUFFICIENT_FUNDS,25,LOW,send_payment_reminder,SUCCESS,7695.97,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 7,695.97.",1.0
-TX00625,11563.23,CARD_EXPIRED,52,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00625,11563.23,CARD_EXPIRED,52,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00626,11579.47,INSUFFICIENT_FUNDS,27,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00627,21015.02,BANK_TIMEOUT,18,LOW,retry_payment,SUCCESS,21015.02,1,"Action 'retry_payment' executed successfully. Recovered INR 21,015.02.",1.0
 TX00628,6432.92,BANK_TIMEOUT,9,LOW,retry_payment,SUCCESS,6432.92,1,"Action 'retry_payment' executed successfully. Recovered INR 6,432.92.",1.0
@@ -643,7 +643,7 @@ TX00641,8258.02,CUSTOMER_DECLINED,55,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery
 TX00642,13565.43,TEMPORARY_BANK_ERROR,23,LOW,retry_payment,SUCCESS,13565.43,1,"Action 'retry_payment' executed successfully. Recovered INR 13,565.43.",1.0
 TX00643,24128.58,TEMPORARY_BANK_ERROR,20,LOW,retry_payment,SUCCESS,24128.58,1,"Action 'retry_payment' executed successfully. Recovered INR 24,128.58.",1.0
 TX00644,9970.03,CARD_EXPIRED,26,LOW,create_payment_link,SUCCESS,9970.03,1,"Action 'create_payment_link' executed successfully. Recovered INR 9,970.03.",2.0
-TX00645,13321.61,CARD_EXPIRED,28,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00645,13321.61,CARD_EXPIRED,28,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00646,14749.18,TEMPORARY_BANK_ERROR,29,LOW,retry_payment,SUCCESS,14749.18,1,"Action 'retry_payment' executed successfully. Recovered INR 14,749.18.",1.0
 TX00647,10870.56,INSUFFICIENT_FUNDS,52,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00648,2550.29,INSUFFICIENT_FUNDS,18,LOW,send_payment_reminder,SUCCESS,2550.29,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 2,550.29.",1.0
@@ -651,7 +651,7 @@ TX00649,10896.9,INSUFFICIENT_FUNDS,48,MEDIUM,send_payment_reminder,SUCCESS,10896
 TX00650,49292.87,INSUFFICIENT_FUNDS,55,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00651,2407.08,LIMIT_EXCEEDED,46,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00652,5298.17,TEMPORARY_BANK_ERROR,23,LOW,retry_payment,SUCCESS,5298.17,1,"Action 'retry_payment' executed successfully. Recovered INR 5,298.17.",1.0
-TX00653,24861.08,CARD_EXPIRED,35,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00653,24861.08,CARD_EXPIRED,35,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00654,19608.33,LIMIT_EXCEEDED,32,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00655,24638.3,LIMIT_EXCEEDED,40,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00656,14822.89,CARD_EXPIRED,29,LOW,create_payment_link,SUCCESS,14822.89,1,"Action 'create_payment_link' executed successfully. Recovered INR 14,822.89.",2.0
@@ -671,13 +671,13 @@ TX00669,21953.44,INSUFFICIENT_FUNDS,30,LOW,send_payment_reminder,SUCCESS,21953.4
 TX00670,11633.88,CARD_EXPIRED,49,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00671,4881.71,CARD_EXPIRED,58,MEDIUM,create_payment_link,SUCCESS,4881.71,1,"Action 'create_payment_link' executed successfully. Recovered INR 4,881.71.",2.0
 TX00672,17546.93,TEMPORARY_BANK_ERROR,22,LOW,retry_payment,SUCCESS,17546.93,1,"Action 'retry_payment' executed successfully. Recovered INR 17,546.93.",1.0
-TX00673,22857.63,CARD_EXPIRED,34,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00673,22857.63,CARD_EXPIRED,34,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00674,9497.06,INSUFFICIENT_FUNDS,16,LOW,send_payment_reminder,SUCCESS,9497.06,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 9,497.06.",1.0
 TX00675,12847.98,BANK_TIMEOUT,18,LOW,retry_payment,SUCCESS,12847.98,1,"Action 'retry_payment' executed successfully. Recovered INR 12,847.98.",1.0
 TX00676,10243.94,TEMPORARY_BANK_ERROR,46,MEDIUM,retry_payment,SUCCESS,10243.94,1,"Action 'retry_payment' executed successfully. Recovered INR 10,243.94.",1.0
 TX00677,18767.7,INSUFFICIENT_FUNDS,39,MEDIUM,send_payment_reminder,SUCCESS,18767.7,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 18,767.70.",1.0
-TX00678,20518.41,BANK_TIMEOUT,39,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00679,4610.26,CARD_EXPIRED,23,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00678,20518.41,BANK_TIMEOUT,49,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00679,4610.26,CARD_EXPIRED,23,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00680,1340.45,INSUFFICIENT_FUNDS,18,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00681,17980.41,TEMPORARY_BANK_ERROR,41,MEDIUM,retry_payment,SUCCESS,17980.41,1,"Action 'retry_payment' executed successfully. Recovered INR 17,980.41.",1.0
 TX00682,19217.59,TEMPORARY_BANK_ERROR,32,MEDIUM,retry_payment,SUCCESS,19217.59,1,"Action 'retry_payment' executed successfully. Recovered INR 19,217.59.",1.0
@@ -705,7 +705,7 @@ TX00703,13989.59,TEMPORARY_BANK_ERROR,13,LOW,retry_payment,SUCCESS,13989.59,1,"A
 TX00704,2255.33,CARD_EXPIRED,21,LOW,create_payment_link,SUCCESS,2255.33,1,"Action 'create_payment_link' executed successfully. Recovered INR 2,255.33.",2.0
 TX00705,9631.89,LIMIT_EXCEEDED,41,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00706,14854.74,LIMIT_EXCEEDED,54,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00707,11145.67,CARD_EXPIRED,42,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00707,11145.67,CARD_EXPIRED,52,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00708,9483.61,INSUFFICIENT_FUNDS,51,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00709,22983.83,INSUFFICIENT_FUNDS,32,MEDIUM,send_payment_reminder,SUCCESS,22983.83,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 22,983.83.",1.0
 TX00710,15272.63,BANK_TIMEOUT,31,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -721,7 +721,7 @@ TX00719,2591.25,TEMPORARY_BANK_ERROR,22,LOW,retry_payment,SUCCESS,2591.25,1,"Act
 TX00720,2959.74,TEMPORARY_BANK_ERROR,42,MEDIUM,retry_payment,SUCCESS,2959.74,1,"Action 'retry_payment' executed successfully. Recovered INR 2,959.74.",1.0
 TX00721,13244.96,TEMPORARY_BANK_ERROR,23,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00722,8711.82,LIMIT_EXCEEDED,50,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00723,24297.44,CARD_EXPIRED,70,HIGH,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00723,24297.44,CARD_EXPIRED,70,HIGH,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00724,31759.2,TEMPORARY_BANK_ERROR,42,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00725,13063.9,BANK_TIMEOUT,25,LOW,retry_payment,SUCCESS,13063.9,1,"Action 'retry_payment' executed successfully. Recovered INR 13,063.90.",1.0
 TX00726,18453.84,INSUFFICIENT_FUNDS,36,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -743,9 +743,9 @@ TX00741,21183.13,INSUFFICIENT_FUNDS,38,MEDIUM,stop_recovery,FAILURE,0.0,2,Recove
 TX00742,20269.13,CARD_EXPIRED,32,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00743,19435.35,CARD_EXPIRED,32,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00744,8732.81,INSUFFICIENT_FUNDS,15,LOW,send_payment_reminder,SUCCESS,8732.81,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 8,732.81.",1.0
-TX00745,7389.68,CARD_EXPIRED,24,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00745,7389.68,CARD_EXPIRED,24,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00746,17813.94,INSUFFICIENT_FUNDS,31,MEDIUM,send_payment_reminder,SUCCESS,17813.94,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 17,813.94.",1.0
-TX00747,4033.68,CARD_EXPIRED,47,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00747,4033.68,CARD_EXPIRED,47,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00748,24619.01,TEMPORARY_BANK_ERROR,48,MEDIUM,retry_payment,SUCCESS,24619.01,1,"Action 'retry_payment' executed successfully. Recovered INR 24,619.01.",1.0
 TX00749,12062.57,BANK_TIMEOUT,17,LOW,retry_payment,SUCCESS,12062.57,1,"Action 'retry_payment' executed successfully. Recovered INR 12,062.57.",1.0
 TX00750,10357.45,BANK_TIMEOUT,11,LOW,retry_payment,SUCCESS,10357.45,1,"Action 'retry_payment' executed successfully. Recovered INR 10,357.45.",1.0
@@ -804,7 +804,7 @@ TX00802,15299.13,BANK_TIMEOUT,19,LOW,retry_payment,SUCCESS,15299.13,1,"Action 'r
 TX00803,17164.26,TEMPORARY_BANK_ERROR,22,LOW,retry_payment,SUCCESS,17164.26,1,"Action 'retry_payment' executed successfully. Recovered INR 17,164.26.",1.0
 TX00804,6313.35,TEMPORARY_BANK_ERROR,24,LOW,retry_payment,SUCCESS,6313.35,1,"Action 'retry_payment' executed successfully. Recovered INR 6,313.35.",1.0
 TX00805,14812.1,CARD_EXPIRED,44,MEDIUM,create_payment_link,SUCCESS,14812.1,1,"Action 'create_payment_link' executed successfully. Recovered INR 14,812.10.",2.0
-TX00806,15603.85,CARD_EXPIRED,51,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00806,15603.85,CARD_EXPIRED,51,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00807,10704.39,TEMPORARY_BANK_ERROR,21,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00808,3365.27,BANK_TIMEOUT,25,LOW,retry_payment,SUCCESS,3365.27,1,"Action 'retry_payment' executed successfully. Recovered INR 3,365.27.",1.0
 TX00809,7189.23,TEMPORARY_BANK_ERROR,19,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
@@ -828,7 +828,7 @@ TX00826,12222.38,LIMIT_EXCEEDED,27,LOW,escalate_to_human,FAILURE,0.0,1,Case esca
 TX00827,13762.05,INSUFFICIENT_FUNDS,36,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00828,3002.61,BANK_TIMEOUT,32,MEDIUM,retry_payment,SUCCESS,3002.61,1,"Action 'retry_payment' executed successfully. Recovered INR 3,002.61.",1.0
 TX00829,16490.9,LIMIT_EXCEEDED,30,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
-TX00830,24674.74,BANK_TIMEOUT,25,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00830,24674.74,BANK_TIMEOUT,45,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00831,23062.73,LIMIT_EXCEEDED,34,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00832,17078.17,LIMIT_EXCEEDED,30,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00833,7114.68,INSUFFICIENT_FUNDS,14,LOW,send_payment_reminder,SUCCESS,7114.68,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 7,114.68.",1.0
@@ -855,7 +855,7 @@ TX00853,14255.24,BANK_TIMEOUT,14,LOW,retry_payment,SUCCESS,14255.24,1,"Action 'r
 TX00854,12705.27,CARD_EXPIRED,28,LOW,create_payment_link,SUCCESS,12705.27,1,"Action 'create_payment_link' executed successfully. Recovered INR 12,705.27.",2.0
 TX00855,22374.87,BANK_TIMEOUT,18,LOW,retry_payment,SUCCESS,22374.87,1,"Action 'retry_payment' executed successfully. Recovered INR 22,374.87.",1.0
 TX00856,21699.02,TEMPORARY_BANK_ERROR,33,MEDIUM,retry_payment,SUCCESS,21699.02,1,"Action 'retry_payment' executed successfully. Recovered INR 21,699.02.",1.0
-TX00857,6150.31,CARD_EXPIRED,49,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00857,6150.31,CARD_EXPIRED,49,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00858,18280.78,INSUFFICIENT_FUNDS,39,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00859,15712.69,BANK_TIMEOUT,29,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00860,23875.58,INSUFFICIENT_FUNDS,27,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -874,14 +874,14 @@ TX00872,5707.47,LIMIT_EXCEEDED,33,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case es
 TX00873,3958.4,INSUFFICIENT_FUNDS,27,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00874,22290.99,CARD_EXPIRED,33,MEDIUM,create_payment_link,SUCCESS,22290.99,1,"Action 'create_payment_link' executed successfully. Recovered INR 22,290.99.",2.0
 TX00875,9022.34,INSUFFICIENT_FUNDS,22,LOW,send_payment_reminder,SUCCESS,9022.34,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 9,022.34.",1.0
-TX00876,17406.8,CARD_EXPIRED,30,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00877,8399.07,CARD_EXPIRED,37,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00876,17406.8,CARD_EXPIRED,30,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
+TX00877,8399.07,CARD_EXPIRED,37,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00878,8220.35,INSUFFICIENT_FUNDS,15,LOW,send_payment_reminder,SUCCESS,8220.35,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 8,220.35.",1.0
 TX00879,16089.56,BANK_TIMEOUT,15,LOW,retry_payment,SUCCESS,16089.56,1,"Action 'retry_payment' executed successfully. Recovered INR 16,089.56.",1.0
 TX00880,15163.02,TEMPORARY_BANK_ERROR,39,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00881,895.07,INSUFFICIENT_FUNDS,26,LOW,send_payment_reminder,SUCCESS,895.07,1,Action 'send_payment_reminder' executed successfully. Recovered INR 895.07.,1.0
 TX00882,10602.91,TEMPORARY_BANK_ERROR,46,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00883,4789.86,TEMPORARY_BANK_ERROR,8,LOW,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00883,4789.86,TEMPORARY_BANK_ERROR,33,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00884,16594.38,INSUFFICIENT_FUNDS,45,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00885,3033.01,BANK_TIMEOUT,12,LOW,retry_payment,SUCCESS,3033.01,1,"Action 'retry_payment' executed successfully. Recovered INR 3,033.01.",1.0
 TX00886,2932.73,INSUFFICIENT_FUNDS,12,LOW,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
@@ -892,7 +892,7 @@ TX00890,26443.57,CARD_EXPIRED,36,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case esc
 TX00891,24725.03,INSUFFICIENT_FUNDS,35,MEDIUM,send_payment_reminder,SUCCESS,24725.03,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 24,725.03.",1.0
 TX00892,20052.49,INSUFFICIENT_FUNDS,44,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00893,13121.56,TEMPORARY_BANK_ERROR,28,LOW,retry_payment,SUCCESS,13121.56,1,"Action 'retry_payment' executed successfully. Recovered INR 13,121.56.",1.0
-TX00894,15806.57,CARD_EXPIRED,48,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00894,15806.57,CARD_EXPIRED,48,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00895,67351.77,BANK_TIMEOUT,35,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00896,18613.09,CUSTOMER_DECLINED,48,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00897,22408.99,BANK_TIMEOUT,18,LOW,retry_payment,SUCCESS,22408.99,1,"Action 'retry_payment' executed successfully. Recovered INR 22,408.99.",1.0
@@ -921,7 +921,7 @@ TX00919,22900.04,TEMPORARY_BANK_ERROR,41,MEDIUM,retry_payment,SUCCESS,22900.04,1
 TX00920,18890.09,BANK_TIMEOUT,21,LOW,retry_payment,SUCCESS,18890.09,1,"Action 'retry_payment' executed successfully. Recovered INR 18,890.09.",1.0
 TX00921,24508.79,CARD_EXPIRED,57,MEDIUM,stop_recovery,FAILURE,0.0,1,Recovery terminated by policy or customer preference.,0.0
 TX00922,5965.95,BANK_TIMEOUT,19,LOW,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
-TX00923,18168.23,CARD_EXPIRED,31,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00923,18168.23,CARD_EXPIRED,31,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00924,19652.63,BANK_TIMEOUT,17,LOW,retry_payment,SUCCESS,19652.63,1,"Action 'retry_payment' executed successfully. Recovered INR 19,652.63.",1.0
 TX00925,9761.18,BANK_TIMEOUT,36,MEDIUM,retry_payment,SUCCESS,9761.18,1,"Action 'retry_payment' executed successfully. Recovered INR 9,761.18.",1.0
 TX00926,22162.28,INSUFFICIENT_FUNDS,23,LOW,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
@@ -931,7 +931,7 @@ TX00929,1970.51,INSUFFICIENT_FUNDS,33,MEDIUM,stop_recovery,FAILURE,0.0,2,Recover
 TX00930,20361.49,INSUFFICIENT_FUNDS,44,MEDIUM,send_payment_reminder,SUCCESS,20361.49,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 20,361.49.",1.0
 TX00931,12810.08,TEMPORARY_BANK_ERROR,13,LOW,retry_payment,SUCCESS,12810.08,1,"Action 'retry_payment' executed successfully. Recovered INR 12,810.08.",1.0
 TX00932,10265.0,TEMPORARY_BANK_ERROR,36,MEDIUM,retry_payment,SUCCESS,10265.0,1,"Action 'retry_payment' executed successfully. Recovered INR 10,265.00.",1.0
-TX00933,4093.87,CARD_EXPIRED,54,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00933,4093.87,CARD_EXPIRED,54,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00934,61403.7,TEMPORARY_BANK_ERROR,60,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00935,12753.45,TEMPORARY_BANK_ERROR,38,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
 TX00936,10811.16,BANK_TIMEOUT,26,LOW,retry_payment,SUCCESS,10811.16,1,"Action 'retry_payment' executed successfully. Recovered INR 10,811.16.",1.0
@@ -965,7 +965,7 @@ TX00963,55740.0,BANK_TIMEOUT,60,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case esca
 TX00964,9603.91,INSUFFICIENT_FUNDS,21,LOW,send_payment_reminder,SUCCESS,9603.91,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 9,603.91.",1.0
 TX00965,645.25,INSUFFICIENT_FUNDS,10,LOW,send_payment_reminder,SUCCESS,645.25,1,Action 'send_payment_reminder' executed successfully. Recovered INR 645.25.,1.0
 TX00966,15001.89,INSUFFICIENT_FUNDS,44,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
-TX00967,16955.68,CARD_EXPIRED,35,MEDIUM,escalate_to_human,FAILURE,0.0,3,Case escalated to human review. Automated recovery paused.,100.0
+TX00967,16955.68,CARD_EXPIRED,35,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
 TX00968,16986.61,TEMPORARY_BANK_ERROR,30,LOW,retry_payment,SUCCESS,16986.61,1,"Action 'retry_payment' executed successfully. Recovered INR 16,986.61.",1.0
 TX00969,3298.9,BANK_TIMEOUT,7,LOW,retry_payment,SUCCESS,3298.9,1,"Action 'retry_payment' executed successfully. Recovered INR 3,298.90.",1.0
 TX00970,20818.53,TEMPORARY_BANK_ERROR,42,MEDIUM,retry_payment,SUCCESS,20818.53,1,"Action 'retry_payment' executed successfully. Recovered INR 20,818.53.",1.0
@@ -984,7 +984,7 @@ TX00982,16732.37,LIMIT_EXCEEDED,35,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case e
 TX00983,21990.43,LIMIT_EXCEEDED,33,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00984,21161.97,INSUFFICIENT_FUNDS,31,MEDIUM,send_payment_reminder,SUCCESS,21161.97,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 21,161.97.",1.0
 TX00985,17548.91,BANK_TIMEOUT,28,LOW,retry_payment,SUCCESS,17548.91,1,"Action 'retry_payment' executed successfully. Recovered INR 17,548.91.",1.0
-TX00986,7480.58,CARD_EXPIRED,32,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
+TX00986,7480.58,CARD_EXPIRED,56,MEDIUM,escalate_to_human,FAILURE,0.0,1,Case escalated to human review. Automated recovery paused.,100.0
 TX00987,15850.42,BANK_TIMEOUT,14,LOW,retry_payment,SUCCESS,15850.42,1,"Action 'retry_payment' executed successfully. Recovered INR 15,850.42.",1.0
 TX00988,2255.95,INSUFFICIENT_FUNDS,21,LOW,send_payment_reminder,SUCCESS,2255.95,1,"Action 'send_payment_reminder' executed successfully. Recovered INR 2,255.95.",1.0
 TX00989,5562.38,INSUFFICIENT_FUNDS,38,MEDIUM,stop_recovery,FAILURE,0.0,2,Recovery terminated by policy or customer preference.,0.0
