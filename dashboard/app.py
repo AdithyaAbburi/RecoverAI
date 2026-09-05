@@ -538,7 +538,7 @@ if not db_df.empty:
                 if rec_st == "SUCCESS":
                     rec_st = "RECOVERED"
                 rec_amt = getattr(tx, "recovered_amount", 0.0) or 0.0
-                st.markdown(f"**Transaction ID**: `{tx.transaction_id}`  \n**Amount**: ₹{tx.amount:,.2f}  \n**Initial Payment Status**: `<span style='color:#F87171; font-weight:700;'>FAILED</span>`  \n**Recovery Status**: `{rec_st}`  \n**Recovered Amount**: ₹{rec_amt:,.2f}  \n**Failure Reason**: `{FAILURE_LABELS.get(tx.failure_code, tx.failure_code)}`", unsafe_allow_html=True)
+                st.markdown(f"**Transaction ID**: `{tx.transaction_id}`  \n**Amount**: ₹{tx.amount:,.2f}  \n**Initial Payment Status**: <span style='color:#F87171; font-weight:700;'>FAILED</span>  \n**Recovery Status**: `{rec_st}`  \n**Recovered Amount**: ₹{rec_amt:,.2f}  \n**Failure Reason**: `{FAILURE_LABELS.get(tx.failure_code, tx.failure_code)}`", unsafe_allow_html=True)
             with c_details2:
                 if customer:
                     st.markdown(f"**Customer ID**: `{customer.customer_id}`  \n**Type**: `{customer.customer_type}`  \n**Success Rate**: `{customer.previous_payment_success_rate:.2f}`  \n**Preference**: `{customer.contact_preference}`  \n**Risk Flag**: `{customer.risk_flag}`")
