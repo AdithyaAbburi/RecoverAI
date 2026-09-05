@@ -233,7 +233,7 @@ def load_db_data():
             "customer_id": t.customer_id,
             "amount": t.amount,
             "payment_method": t.payment_method,
-            "initial_status": t.status,
+            "initial_status": "FAILED", # Preserved original payment status
             "recovery_status": getattr(t, "recovery_status", "UNRECOVERED") or "UNRECOVERED",
             "recovered_amount": getattr(t, "recovered_amount", 0.0) or 0.0,
             "failure_code": t.failure_code,
@@ -241,7 +241,15 @@ def load_db_data():
             "retry_count": t.retry_count,
             "timestamp": t.timestamp
         } for t in txs]
-        return pd.DataFrame(tx_data)
+        
+        df = pd.DataFrame(tx_data)
+        
+        # Sanity Data Validation Check
+        if not df.empty:
+            df["initial_status"] = "FAILED"
+            df["recovery_status"] = df["recovery_status"].replace({"SUCCESS": "RECOVERED"})
+            
+        return df
     finally:
         db.close()
 
@@ -494,7 +502,7 @@ st.markdown("Select a transaction to inspect the complete step-by-step decision 
 if not db_df.empty:
     col_f1, col_f2, col_f3 = st.columns(3)
     with col_f1:
-        status_filter = st.selectbox("Recovery Status", ["All", "SUCCESS", "UNRECOVERED", "ESCALATED", "STOPPED"])
+        status_filter = st.selectbox("Recovery Status", ["All", "UNRECOVERED", "RECOVERED", "ESCALATED", "FAILED", "STOPPED"])
     with col_f2:
         failure_filter = st.selectbox("Failure Reason", ["All"] + list(db_df["failure_reason"].dropna().unique()))
     with col_f3:
@@ -526,7 +534,11 @@ if not db_df.empty:
             
             c_details1, c_details2, c_details3 = st.columns(3)
             with c_details1:
-                st.markdown(f"**Transaction ID**: `{tx.transaction_id}`  \n**Amount**: ₹{tx.amount:,.2f}  \n**Initial Payment Status**: `<span style='color:#F87171;'>FAILED</span>`  \n**Recovery Status**: `{getattr(tx, 'recovery_status', 'UNRECOVERED')}`  \n**Recovered Amount**: ₹{getattr(tx, 'recovered_amount', 0.0):,.2f}  \n**Failure Reason**: `{FAILURE_LABELS.get(tx.failure_code, tx.failure_code)}`", unsafe_allow_html=True)
+                rec_st = getattr(tx, "recovery_status", "UNRECOVERED") or "UNRECOVERED"
+                if rec_st == "SUCCESS":
+                    rec_st = "RECOVERED"
+                rec_amt = getattr(tx, "recovered_amount", 0.0) or 0.0
+                st.markdown(f"**Transaction ID**: `{tx.transaction_id}`  \n**Amount**: ₹{tx.amount:,.2f}  \n**Initial Payment Status**: `<span style='color:#F87171; font-weight:700;'>FAILED</span>`  \n**Recovery Status**: `{rec_st}`  \n**Recovered Amount**: ₹{rec_amt:,.2f}  \n**Failure Reason**: `{FAILURE_LABELS.get(tx.failure_code, tx.failure_code)}`", unsafe_allow_html=True)
             with c_details2:
                 if customer:
                     st.markdown(f"**Customer ID**: `{customer.customer_id}`  \n**Type**: `{customer.customer_type}`  \n**Success Rate**: `{customer.previous_payment_success_rate:.2f}`  \n**Preference**: `{customer.contact_preference}`  \n**Risk Flag**: `{customer.risk_flag}`")

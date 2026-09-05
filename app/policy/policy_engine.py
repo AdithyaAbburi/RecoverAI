@@ -16,10 +16,10 @@ def check_policy(action: str, transaction: Transaction, customer: Customer, atte
     """
     prev_actions = previous_actions or []
 
-    # Rule 0: Already successful payment or recovery protection
+    # Rule 0: Already successfully recovered or successful payment protection
     status_val = (getattr(transaction, "status", "") or "").upper()
     rec_status = (getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED").upper()
-    if status_val == "SUCCESS" or rec_status == "SUCCESS":
+    if status_val == "SUCCESS" or rec_status in ["RECOVERED", "SUCCESS"]:
         return {
             "allowed": False,
             "action": action,

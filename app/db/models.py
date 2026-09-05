@@ -22,11 +22,11 @@ class Transaction(Base):
     customer_id = Column(String, ForeignKey("customers.customer_id"), nullable=False, index=True)
     amount = Column(Float, nullable=False)
     payment_method = Column(String, nullable=False) # e.g., 'UPI', 'CARD', 'NETBANKING'
-    status = Column(String, nullable=False) # Initial Payment Status: 'FAILED'
+    status = Column(String, nullable=False, default="FAILED") # Initial Payment Status: 'FAILED'
     failure_code = Column(String, nullable=True) # e.g., 'BANK_TIMEOUT', 'INSUFFICIENT_FUNDS', etc.
     retry_count = Column(Integer, default=0)
     timestamp = Column(DateTime, nullable=False)
-    recovery_status = Column(String, default="UNRECOVERED") # 'UNRECOVERED', 'SUCCESS', 'ESCALATED', 'STOPPED'
+    recovery_status = Column(String, default="UNRECOVERED") # 'UNRECOVERED', 'RECOVERED', 'ESCALATED', 'FAILED', 'STOPPED'
     recovered_amount = Column(Float, default=0.0)
 
     customer = relationship("Customer", back_populates="transactions")

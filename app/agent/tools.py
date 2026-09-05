@@ -7,7 +7,8 @@ def execute_tool(action: str, transaction_id: str, db: Session, seed: int = None
     """
     Execute a recovery tool on a transaction.
     Interfaced with the simulator, updates DB records, and logs the execution stage.
-    Preserves original transaction.status ('FAILED') and sets transaction.recovery_status.
+    Preserves original transaction.status ('FAILED') and sets transaction.recovery_status
+    to 'RECOVERED', 'FAILED', 'ESCALATED', or 'STOPPED'.
     """
     transaction = db.query(Transaction).filter(Transaction.transaction_id == transaction_id).first()
     if not transaction:
@@ -26,7 +27,7 @@ def execute_tool(action: str, transaction_id: str, db: Session, seed: int = None
     
     # 4. Handle recovery state updates (PRESERVING transaction.status as FAILED)
     if sim_result["status"] == "SUCCESS":
-        transaction.recovery_status = "SUCCESS"
+        transaction.recovery_status = "RECOVERED"
         transaction.recovered_amount = sim_result["amount_recovered"]
         db.add(transaction)
         
@@ -43,6 +44,10 @@ def execute_tool(action: str, transaction_id: str, db: Session, seed: int = None
         db.add(transaction)
     elif action == "stop_recovery":
         transaction.recovery_status = "STOPPED"
+        db.add(transaction)
+    else:
+        # Unsuccessful recovery attempt execution
+        transaction.recovery_status = "FAILED"
         db.add(transaction)
             
     # 5. Log action execution stage in audit log

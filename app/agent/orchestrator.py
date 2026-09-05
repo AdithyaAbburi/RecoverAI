@@ -285,8 +285,8 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
 
     # If the budget of 2 attempts was exhausted and transaction recovery is still unrecovered, escalate
     db.refresh(transaction)
-    rec_status = getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED"
-    if rec_status.upper() != "SUCCESS" and last_res and last_res["final_action"] not in ["escalate_to_human", "stop_recovery"]:
+    rec_status = (getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED").upper()
+    if rec_status not in ["RECOVERED", "SUCCESS"] and last_res and last_res["final_action"] not in ["escalate_to_human", "stop_recovery"]:
         # Execute terminal safety escalation
         start_time = time.perf_counter()
         log_audit(
