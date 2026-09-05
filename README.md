@@ -18,12 +18,12 @@ RecoverAI was evaluated on a benchmark of 1,000 synthetic transaction failures u
 | **Revenue at Risk** | INR 14,648,500.39 | INR 14,648,500.39 | INR 14,648,500.39 |
 | **Gross Revenue Recovered** | INR 4,292,057.07 | INR 6,815,233.05 | **INR 8,647,258.31** |
 | **Revenue Recovery Rate** | 29.30% | 46.53% | **59.03%** |
-| **Recovery Operational Cost** | INR 839.00 | INR 30,072.00 | INR 34,795.00 |
-| **Net Revenue Recovered** | INR 4,291,218.07 | INR 6,785,161.05 | **INR 8,612,463.31** |
+| **Recovery Operational Cost** | INR 839.00 | INR 24,772.00 | INR 34,795.00 |
+| **Net Revenue Recovered** | INR 4,291,218.07 | INR 6,790,461.05 | **INR 8,612,463.31** |
 | **Financial Net Uplift (vs Baseline)** | — | +17.22% | **+29.73% (+INR 4,355,201.24)** |
 | **Financial Net Uplift (vs Rules-Only)**| — | — | **+12.51% (+INR 1,832,025.26)** |
-| **Average Attempts per Transaction** | 0.84 | 1.40 | 1.53 |
-| **Escalated Cases (Ops Queue)** | 0 (No escalation) | 295 (29.5%) | 339 (33.9%) |
+| **Average Attempts per Transaction** | 0.84 | 1.35 | 1.53 |
+| **Escalated Cases (Ops Queue)** | 0 (No escalation) | 242 (24.2%) | 339 (33.9%) |
 | **Policy Violation Rate** | 0.0% | 0.0% | **0.0% (100% Compliant)** |
 | **Stopping Rule Compliance** | 100.0% | 100.0% | **100.0% (MAX_ATTEMPTS=2 Enforced)** |
 
