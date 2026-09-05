@@ -1,14 +1,14 @@
 # RecoverAI: Bounded Autonomous Revenue Recovery System
 
-> **Live Operations Dashboard**: [https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app](https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app)
+> **Live Operations Control Room**: [https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app](https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app)
 
-RecoverAI is an autonomous revenue recovery system designed for enterprise payment operations. It detects payment failures, diagnoses root causes using generative AI context parsing, optimizes recovery paths through Expected Recovery Value (ERV) mathematical ranking, and executes bounded recovery actions under strict deterministic safety guardrails.
+RecoverAI is an AI-powered revenue recovery system designed for enterprise payment operations. It detects payment failures, diagnoses root causes using generative AI context parsing, optimizes recovery paths through Expected Recovery Value (ERV) mathematical ranking, and executes bounded recovery actions under strict deterministic safety guardrails.
 
 ---
 
 ## Executive Summary & Benchmark Metrics
 
-RecoverAI was evaluated on a benchmark of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the canonical evaluation results exported to `data/evaluation/evaluation_results.json`:
+RecoverAI was evaluated on a canonical benchmark of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the single source of truth exported to `data/evaluation/evaluation_results.json`:
 
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Static Mapping) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
@@ -36,15 +36,15 @@ RecoverAI was evaluated on a benchmark of 1,000 synthetic transaction failures u
 The Streamlit Operations Control Room provides payment operations teams with real-time visibility and auditability over the autonomous recovery process:
 
 1. **Executive KPI Banner**: Displays live financial metrics including Total Revenue at Risk, Gross Recovered Revenue, Net Recovered Revenue (after deducting action operational costs), and Financial Uplift vs static rule benchmarks.
-2. **Comparative Financial Charts**: Renders side-by-side visual comparisons of Gross vs Net Recovery across baseline, static rules, and RecoverAI strategies, along with intervention action distribution bar charts.
+2. **Comparative Financial Charts**: Renders side-by-side visual comparisons of Gross vs Net Recovery across baseline, static rules, and RecoverAI strategies, along with human-readable intervention action distribution bar charts.
 3. **End-to-End Recovery Pipeline Funnel**: Displays transaction state transitions from ingestion, AI evaluation, intervention selection, successful recovery, to human escalation.
 4. **Safety & Stopping Rule Verification**: Confirms strict enforcement of `MAX_ATTEMPTS = 2` stopping rules (Attempt 1 and Attempt 2 execution, Attempt 3 blocking) with zero policy violations.
-5. **System Latency & Performance Breakdown**: Logs stage-by-stage execution latencies (Risk Scoring, Root Cause Analysis, Policy Guardrails, Execution) to verify compliance with enterprise gateway SLAs.
-6. **Interactive AI Decision Trace & Audit Viewer**: Enables deep-dive inspection into individual transactions (e.g. `TX00014`), displaying failure context, AI root cause diagnosis, ERV candidate rankings, policy gate decisions, tool execution results, and immutable SQLite audit timelines.
+5. **System Latency & Performance Breakdown**: Logs stage-by-stage execution latencies (Risk Scoring, Root Cause Analysis, Policy Guardrails, Execution). *Note: Measured local pipeline stages remain sub-millisecond in the benchmark environment; external gateway and network latencies are excluded.*
+6. **Interactive AI Decision Trace & Audit Viewer**: Enables deep-dive inspection into individual transactions (e.g. `TX00014`), displaying initial payment status (`FAILED`), recovery status (`RECOVERED` / `UNRECOVERED` / `ESCALATED` / `STOPPED`), AI root cause diagnosis, ERV candidate rankings, policy gate decisions, tool execution outcomes, and complete Transaction Audit Trail timelines.
 
 ---
 
-## System Architecture
+## System Architecture & Data Lifecycle
 
 RecoverAI implements a hybrid architecture: generative AI diagnoses context, while mathematical optimization and compiled Python rules bound financial execution.
 
@@ -60,7 +60,13 @@ RecoverAI implements a hybrid architecture: generative AI diagnoses context, whi
 5. **Policy Engine (Deterministic Gates)**: Validates actions against strict safety guardrails (retry cap `MAX_ATTEMPTS = 2`, high-value threshold $\ge$ INR 25,000 escalation, fraud risk flag blocking, communication opt-out compliance).
 6. **Bounded Tool Execution (Approved Branch)**: Executes approved interventions within a seeded payment simulator.
 7. **Human Operations Escalation (Rejected/Escalated Branch)**: Safely routes high-value, fraud-flagged, or retry-exhausted cases to manual review queues.
-8. **Immutable Audit Log (SQLite Trace DB)**: Records a step-by-step trace of every decision stage for compliance, governance, and operational analytics.
+8. **Transaction Audit Trail (SQLite DB)**: Records a step-by-step trace of every decision stage for compliance, governance, and operational analytics.
+
+### Data Model & Lifecycle Semantics
+
+* **Initial Payment Status (`status`)**: Permanent and immutable (`FAILED`) for all failed transactions entering the recovery pipeline.
+* **Recovery Status (`recovery_status`)**: Tracks the outcome of the recovery execution (`UNRECOVERED`, `RECOVERED`, `ESCALATED`, `FAILED`, `STOPPED`).
+* **Recovered Amount (`recovered_amount`)**: Tracks net funds recovered (`INR 0.00` if unrecovered, or `transaction.amount` if recovered).
 
 ---
 
@@ -78,12 +84,12 @@ RecoverAI/
 │   ├── simulator/              # Seeded repeatable payment simulator
 │   ├── services/               # DB and audit services
 │   └── db/                     # DB schemas and database session setup
-├── dashboard/                  # Streamlit Operations Dashboard (app.py)
+├── dashboard/                  # Streamlit Operations Control Room (app.py)
 ├── data/
 │   ├── generated/              # Synthetic CSV datasets
 │   └── evaluation/             # Canonical evaluation JSON & CSV results
 ├── scripts/                    # CLI tools (generate_data.py, run_batch.py, run_evaluation.py, evaluate.py)
-├── tests/                      # Pytest automation suite
+├── tests/                      # Pytest automation suite (37 automated unit & integration tests)
 └── docs/                       # Architectural & evaluation details
 ```
 
@@ -104,7 +110,7 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-### 3. Run Automated Tests
+### 3. Run Automated Test Suite (37 Passed)
 ```bash
 pytest
 ```
@@ -130,7 +136,7 @@ python -m uvicorn app.main:app --reload
 
 This interactive dashboard is deployed live on **Streamlit Community Cloud** and accessible globally:
 
-* **Live Dashboard URL**: [https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app](https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app)
+* **Live Control Room URL**: [https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app](https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app)
 * **GitHub Repository**: [https://github.com/AdithyaAbburi/RecoverAI](https://github.com/AdithyaAbburi/RecoverAI)
 
 ### Resume / Portfolio Format
@@ -138,7 +144,7 @@ This interactive dashboard is deployed live on **Streamlit Community Cloud** and
 RecoverAI | Bounded Autonomous Revenue Recovery System
 • Architected a hybrid AI revenue recovery agent combining local LLM root-cause diagnosis with Expected Recovery Value (ERV) mathematical ranking and deterministic safety policy guardrails.
 • Evaluated on a 1,000 synthetic transaction failure benchmark, achieving 59.03% revenue recovery rate (INR 86.12 Lakhs net) with +12.51% net financial uplift over static rules and 0% policy violations.
-• Built operations control dashboard using Streamlit and REST API using FastAPI with full automated pytest coverage.
+• Built operations control dashboard using Streamlit and REST API using FastAPI with full automated pytest coverage (37 tests passing).
 • GitHub: https://github.com/AdithyaAbburi/RecoverAI | Live Demo: https://adithyaabburi-recoverai-dashboardapp-aqo2hr.streamlit.app
 ```
 
