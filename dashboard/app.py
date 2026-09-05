@@ -20,102 +20,165 @@ st.set_page_config(
     layout="wide"
 )
 
-# Custom Enterprise CSS Styling
+# Custom Enterprise Dark Theme CSS
 st.markdown("""
 <style>
-    /* Global Container Padding & Background */
-    .main .block-container {
-        padding-top: 1.5rem;
-        padding-bottom: 2rem;
-        max-width: 96%;
+    /* Force Dark Slate Gradient Background across entire App View Container */
+    [data-testid="stAppViewContainer"], .stApp {
+        background: linear-gradient(180deg, #0F172A 0%, #1E293B 100%) !important;
+        color: #F8FAFC !important;
     }
     
+    [data-testid="stHeader"] {
+        background: transparent !important;
+    }
+    
+    .main .block-container {
+        padding-top: 1.5rem !important;
+        padding-bottom: 2.5rem !important;
+        max-width: 96% !important;
+    }
+
+    /* Force text color contrast */
+    h1, h2, h3, h4, h5, h6, label, div[data-testid="stMarkdownContainer"] p {
+        color: #F8FAFC !important;
+    }
+
     /* Header Banner Styling */
     .header-banner {
         background: linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%);
-        border: 1px solid #4F46E5;
-        border-radius: 12px;
-        padding: 1.5rem 2rem;
-        margin-bottom: 1.5rem;
-        box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.25);
+        border: 1px solid #6366F1;
+        border-radius: 14px;
+        padding: 1.8rem 2.2rem;
+        margin-bottom: 1.8rem;
+        box-shadow: 0 12px 30px -5px rgba(99, 102, 241, 0.35);
     }
     .header-title {
         color: #FFFFFF !important;
-        font-size: 2.2rem !important;
+        font-size: 2.3rem !important;
         font-weight: 800 !important;
         margin: 0 !important;
-        letter-spacing: -0.025em;
+        letter-spacing: -0.02em;
     }
     .header-subtitle {
         color: #C7D2FE !important;
         font-size: 1.05rem !important;
         font-weight: 400 !important;
-        margin-top: 0.3rem !important;
+        margin-top: 0.4rem !important;
     }
     .status-badge {
         display: inline-block;
-        background: rgba(16, 185, 129, 0.15);
-        color: #10B981;
+        background: rgba(16, 185, 129, 0.2);
+        color: #34D399 !important;
         border: 1px solid #10B981;
-        padding: 0.25rem 0.75rem;
+        padding: 0.3rem 0.85rem;
         border-radius: 9999px;
-        font-size: 0.8rem;
-        font-weight: 600;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
         float: right;
     }
-    
+
     /* Custom KPI Cards */
     .kpi-card {
-        background: linear-gradient(145deg, #1E293B 0%, #0F172A 100%);
-        border: 1px solid #334155;
-        border-radius: 10px;
-        padding: 1.1rem 1.2rem;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        background: #1E293B !important;
+        border: 1px solid #334155 !important;
+        border-radius: 12px !important;
+        padding: 1.25rem 1.35rem !important;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3) !important;
+        transition: all 0.25s ease-in-out;
     }
     .kpi-card:hover {
-        transform: translateY(-2px);
-        border-color: #6366F1;
-        box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.3);
+        border-color: #818CF8 !important;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4) !important;
     }
     .kpi-title {
-        color: #94A3B8;
-        font-size: 0.82rem;
-        font-weight: 600;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
+        color: #94A3B8 !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.06em !important;
     }
     .kpi-value {
-        color: #F8FAFC;
-        font-size: 1.55rem;
-        font-weight: 700;
-        margin: 0.4rem 0 0.2rem 0;
+        color: #FFFFFF !important;
+        font-size: 1.7rem !important;
+        font-weight: 800 !important;
+        margin: 0.4rem 0 0.2rem 0 !important;
     }
     .kpi-sub {
-        font-size: 0.82rem;
-        font-weight: 600;
+        font-size: 0.85rem !important;
+        font-weight: 600 !important;
     }
-    .text-emerald { color: #10B981; }
-    .text-indigo { color: #818CF8; }
-    .text-amber { color: #F59E0B; }
+    .text-emerald { color: #34D399 !important; }
+    .text-indigo { color: #A5B4FC !important; }
+    .text-amber { color: #FBBF24 !important; }
+
+    /* Custom High-Contrast Highlight Card (Stopping Rules) */
+    .highlight-card-green {
+        background: #064E3B !important;
+        border: 1px solid #10B981 !important;
+        border-radius: 12px !important;
+        padding: 1.25rem 1.5rem !important;
+        margin-bottom: 1rem !important;
+        box-shadow: 0 6px 18px rgba(16, 185, 129, 0.2) !important;
+    }
+    .highlight-card-green h4 {
+        color: #34D399 !important;
+        margin: 0 0 0.6rem 0 !important;
+        font-size: 1.15rem !important;
+        font-weight: 700 !important;
+    }
+    .highlight-card-green p, .highlight-card-green li, .highlight-card-green div {
+        color: #ECFDF5 !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+    }
+    .highlight-card-info {
+        background: #1E293B !important;
+        border: 1px solid #3B82F6 !important;
+        border-radius: 12px !important;
+        padding: 1rem 1.25rem !important;
+        color: #93C5FD !important;
+        font-size: 0.92rem !important;
+    }
 
     /* Section Subheaders */
     .section-header {
-        border-left: 4px solid #6366F1;
-        padding-left: 0.75rem;
-        margin-top: 1.5rem;
-        margin-bottom: 1rem;
-        font-size: 1.3rem;
+        border-left: 4px solid #818CF8;
+        padding-left: 0.85rem;
+        margin-top: 1.8rem;
+        margin-bottom: 1.2rem;
+        font-size: 1.35rem;
         font-weight: 700;
-        color: #F8FAFC;
+        color: #F8FAFC !important;
+        letter-spacing: -0.01em;
     }
-    
-    /* Highlight Cards */
-    .highlight-card-green {
-        background: rgba(16, 185, 129, 0.08);
-        border: 1px solid rgba(16, 185, 129, 0.3);
-        border-radius: 8px;
-        padding: 1rem;
-        margin-bottom: 1rem;
+
+    /* Table & Dataframe Styling Overrides */
+    div[data-testid="stTable"] table {
+        background-color: #1E293B !important;
+        color: #F8FAFC !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        border: 1px solid #334155 !important;
+    }
+    div[data-testid="stTable"] th {
+        background-color: #0F172A !important;
+        color: #94A3B8 !important;
+        font-weight: 700 !important;
+    }
+    div[data-testid="stTable"] td {
+        color: #E2E8F0 !important;
+        border-bottom: 1px solid #334155 !important;
+    }
+
+    /* Info Alert Overrides */
+    div[data-testid="stAlert"] {
+        background-color: #1E293B !important;
+        border: 1px solid #475569 !important;
+        color: #F8FAFC !important;
+        border-radius: 8px !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -331,17 +394,19 @@ with col_fun2:
     st.markdown("#### Safety & Stopping Rule Enforcement")
     st.markdown("""
     <div class="highlight-card-green">
-        <h4 style="color: #10B981; margin: 0 0 0.5rem 0;">MAX_ATTEMPTS = 2 Strictly Enforced</h4>
-        <p style="margin: 0; color: #E2E8F0; font-size: 0.92rem;">
+        <h4>MAX_ATTEMPTS = 2 Strictly Enforced</h4>
+        <div>
             <b>Attempt 1</b>: Executed under ERV Net Value Maximization<br>
             <b>Attempt 2</b>: Executed under alternative candidate ranking<br>
-            <b>Attempt 3</b>: <b style="color: #EF4444;">BLOCKED (0 Attempt 3 Executions)</b><br>
-            <b>Policy Violations</b>: <b style="color: #10B981;">0 (0.0% - 100% Compliant)</b><br>
-            <b>Stopping Rule Violations</b>: <b style="color: #10B981;">0 (0.0% - Capped)</b>
-        </p>
+            <b>Attempt 3</b>: <b style="color: #F87171;">BLOCKED (0 Attempt 3 Executions)</b><br>
+            <b>Policy Violations</b>: <b style="color: #34D399;">0 (0.0% - 100% Compliant)</b><br>
+            <b>Stopping Rule Violations</b>: <b style="color: #34D399;">0 (0.0% - Capped)</b>
+        </div>
+    </div>
+    <div class="highlight-card-info">
+        Escalated cases represent high-value transactions (>= ₹25,000), fraud risk flags, or exhausted retry budgets safely routed to human operators.
     </div>
     """, unsafe_allow_html=True)
-    st.info("Escalated cases represent high-value transactions (>= ₹25,000), fraud risk flags, or exhausted retry budgets safely routed to human operators.")
 
 st.markdown("---")
 
