@@ -105,8 +105,9 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
     if transaction.retry_count is not None and transaction.retry_count < 0:
         return {"status": "ERROR", "reason": f"Invalid retry count: {transaction.retry_count}."}
 
-    if transaction.status.upper() == "SUCCESS":
-        return {"status": "SUCCESS", "message": "Transaction is already successful."}
+    rec_status = getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED"
+    if rec_status.upper() == "SUCCESS":
+        return {"status": "SUCCESS", "message": "Transaction recovery is already successful."}
 
     customer = db.query(Customer).filter(Customer.customer_id == transaction.customer_id).first()
     invoice = db.query(Invoice).filter(Invoice.customer_id == transaction.customer_id).first()
@@ -133,7 +134,8 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
     # Run the self-contained multi-step loop (up to MAX_ATTEMPTS = 2)
     while attempts_count < MAX_ATTEMPTS:
         db.refresh(transaction)
-        if transaction.status.upper() == "SUCCESS":
+        rec_status = getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED"
+        if rec_status.upper() == "SUCCESS":
             break
 
         # --- STEP 1: RISK ENGINE ---
@@ -281,9 +283,10 @@ def process_transaction_recovery(transaction_id: str, db: Session, seed: int = N
         if execution_result["status"] == "SUCCESS" or final_action in ["escalate_to_human", "stop_recovery"]:
             break
 
-    # If the budget of 2 attempts was exhausted and transaction is still failed, escalate
+    # If the budget of 2 attempts was exhausted and transaction recovery is still unrecovered, escalate
     db.refresh(transaction)
-    if transaction.status.upper() == "FAILED" and last_res and last_res["final_action"] not in ["escalate_to_human", "stop_recovery"]:
+    rec_status = getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED"
+    if rec_status.upper() != "SUCCESS" and last_res and last_res["final_action"] not in ["escalate_to_human", "stop_recovery"]:
         # Execute terminal safety escalation
         start_time = time.perf_counter()
         log_audit(

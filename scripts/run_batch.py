@@ -76,6 +76,8 @@ def run_evaluation_batch(limit: int, llm_limit: int):
     # Reset DB state before rules run
     for tx in transactions:
         tx.status = "FAILED"
+        tx.recovery_status = "UNRECOVERED"
+        tx.recovered_amount = 0.0
         tx.retry_count = 0
     db.commit()
     
@@ -120,6 +122,8 @@ def run_evaluation_batch(limit: int, llm_limit: int):
     # Reset DB state before agent run
     for tx in transactions:
         tx.status = "FAILED"
+        tx.recovery_status = "UNRECOVERED"
+        tx.recovered_amount = 0.0
         tx.retry_count = 0
     db.commit()
     
@@ -146,16 +150,16 @@ def run_evaluation_batch(limit: int, llm_limit: int):
             "transaction_id": tx.transaction_id,
             "amount": tx.amount,
             "failure_code": tx.failure_code,
-            "risk_score": res["risk_score"],
-            "risk_level": res["risk_level"],
+            "risk_score": res.get("risk_score", 0),
+            "risk_level": res.get("risk_level", "LOW"),
             "root_cause": res.get("root_cause", "unknown"),
             "recommended_action": res.get("recommended_action", "escalate_to_human"),
             "policy_result": res.get("policy_result", "APPROVED"),
-            "final_action": res["final_action"],
-            "status": res["execution_status"],
-            "amount_recovered": res["amount_recovered"],
+            "final_action": res.get("final_action", "stop_recovery"),
+            "status": res.get("execution_status", res.get("status", "SKIPPED")),
+            "amount_recovered": res.get("amount_recovered", 0.0),
             "attempts": execution_count,
-            "description": res["description"]
+            "description": res.get("description", res.get("message", ""))
         })
         
         if (idx + 1) % 1000 == 0 or (idx + 1) == len(transactions):

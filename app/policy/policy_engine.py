@@ -16,28 +16,31 @@ def check_policy(action: str, transaction: Transaction, customer: Customer, atte
     """
     prev_actions = previous_actions or []
 
-    # Rule 0: Already successful transaction protection
-    if transaction.status.upper() == "SUCCESS":
+    # Rule 0: Already successful payment or recovery protection
+    status_val = (getattr(transaction, "status", "") or "").upper()
+    rec_status = (getattr(transaction, "recovery_status", "UNRECOVERED") or "UNRECOVERED").upper()
+    if status_val == "SUCCESS" or rec_status == "SUCCESS":
         return {
             "allowed": False,
             "action": action,
             "result": "STOP",
-            "reason": "Transaction is already successful. Recovery process terminated.",
+            "reason": "Transaction recovery is already successful. Recovery process terminated.",
             "policy_rule": "ALREADY_SUCCESSFUL"
         }
 
     # Rule 1: High-Value protection
-    if transaction.amount >= HIGH_VALUE_THRESHOLD:
+    amount_val = getattr(transaction, "amount", 0.0) or 0.0
+    if amount_val >= HIGH_VALUE_THRESHOLD:
         return {
             "allowed": False,
             "action": action,
             "result": "ESCALATE",
-            "reason": f"Amount (₹{transaction.amount:,.2f}) meets or exceeds high-value threshold (₹{HIGH_VALUE_THRESHOLD:,.2f}). Escalating for human operations review.",
+            "reason": f"Amount (₹{amount_val:,.2f}) meets or exceeds high-value threshold (₹{HIGH_VALUE_THRESHOLD:,.2f}). Escalating for human operations review.",
             "policy_rule": "HIGH_VALUE_THRESHOLD"
         }
 
     # Rule 2: Customer Fraud/High-Risk flag check
-    if customer and customer.risk_flag:
+    if customer and getattr(customer, "risk_flag", False):
         return {
             "allowed": False,
             "action": action,
@@ -57,19 +60,20 @@ def check_policy(action: str, transaction: Transaction, customer: Customer, atte
         }
 
     # Rule 4: Duplicate action protection (Idempotency)
+    tx_id = getattr(transaction, "transaction_id", "UNKNOWN")
     if action in prev_actions and action not in ["escalate_to_human", "stop_recovery"]:
         return {
             "allowed": False,
             "action": action,
             "result": "REJECTED",
-            "reason": f"Action '{action}' was already executed for transaction '{transaction.transaction_id}'. Duplicate action blocked.",
+            "reason": f"Action '{action}' was already executed for transaction '{tx_id}'. Duplicate action blocked.",
             "policy_rule": "DUPLICATE_ACTION"
         }
 
     # Rule 5: Contact preference/Opt-out check
     contact_actions = ["send_payment_reminder", "create_payment_link"]
     if action in contact_actions:
-        preference = (customer.contact_preference or "").lower() if customer else "email"
+        preference = (getattr(customer, "contact_preference", "email") or "email").lower() if customer else "email"
         if preference == "none":
             return {
                 "allowed": False,

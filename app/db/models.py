@@ -22,10 +22,12 @@ class Transaction(Base):
     customer_id = Column(String, ForeignKey("customers.customer_id"), nullable=False, index=True)
     amount = Column(Float, nullable=False)
     payment_method = Column(String, nullable=False) # e.g., 'UPI', 'CARD', 'NETBANKING'
-    status = Column(String, nullable=False) # e.g., 'FAILED', 'SUCCESS', 'PENDING'
+    status = Column(String, nullable=False) # Initial Payment Status: 'FAILED'
     failure_code = Column(String, nullable=True) # e.g., 'BANK_TIMEOUT', 'INSUFFICIENT_FUNDS', etc.
     retry_count = Column(Integer, default=0)
     timestamp = Column(DateTime, nullable=False)
+    recovery_status = Column(String, default="UNRECOVERED") # 'UNRECOVERED', 'SUCCESS', 'ESCALATED', 'STOPPED'
+    recovered_amount = Column(Float, default=0.0)
 
     customer = relationship("Customer", back_populates="transactions")
     audit_logs = relationship("AuditLog", back_populates="transaction")
@@ -50,7 +52,7 @@ class AuditLog(Base):
     timestamp = Column(DateTime, nullable=False)
     stage = Column(String, nullable=False) # e.g., 'risk_evaluation', 'root_cause_analysis', 'policy_guardrail', 'execution'
     agent_action = Column(String, nullable=True) # e.g., 'retry_payment', 'send_payment_reminder', etc.
-    policy_result = Column(String, nullable=True) # e.g., 'APPROVED', 'REJECTED', 'ESCALATED'
+    policy_result = Column(String, nullable=True) # e.g., 'APPROVED', 'REJECTED', 'ESCALATE'
     tool_result = Column(String, nullable=True) # e.g., 'SUCCESS', 'FAILURE'
     amount_recovered = Column(Float, default=0.0)
     reason = Column(String, nullable=True)

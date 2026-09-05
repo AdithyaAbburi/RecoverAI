@@ -12,13 +12,35 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from app.config import settings
 from app.db.models import Base, Transaction, Customer, Invoice, AuditLog
 from app.agent.erv_engine import calculate_ervs
+from app.risk.risk_engine import calculate_risk_score
 
 # Page Configuration
 st.set_page_config(
-    page_title="RecoverAI Operations Control Room",
+    page_title="AI Revenue Recovery Operations Control Room",
     page_icon="⚡",
     layout="wide"
 )
+
+# Human-Readable Label Mappings
+ACTION_LABELS = {
+    "retry_payment": "Retry Payment",
+    "send_payment_reminder": "Payment Reminder",
+    "create_payment_link": "Create Payment Link",
+    "schedule_retry": "Schedule Retry",
+    "mark_promise_to_pay": "Promise to Pay",
+    "escalate_to_human": "Human Escalation",
+    "stop_recovery": "Stop Recovery"
+}
+
+FAILURE_LABELS = {
+    "BANK_TIMEOUT": "Bank Timeout",
+    "CUSTOMER_DECLINED": "Customer Declined",
+    "INSUFFICIENT_FUNDS": "Insufficient Funds",
+    "CARD_EXPIRED": "Card Expired",
+    "TEMPORARY_BANK_ERROR": "Temporary Bank Error",
+    "LIMIT_EXCEEDED": "Limit Exceeded",
+    "UNKNOWN_ERROR": "Unknown Error"
+}
 
 # Custom Enterprise Dark Theme CSS
 st.markdown("""
@@ -211,8 +233,11 @@ def load_db_data():
             "customer_id": t.customer_id,
             "amount": t.amount,
             "payment_method": t.payment_method,
-            "status": t.status,
+            "initial_status": t.status,
+            "recovery_status": getattr(t, "recovery_status", "UNRECOVERED") or "UNRECOVERED",
+            "recovered_amount": getattr(t, "recovered_amount", 0.0) or 0.0,
             "failure_code": t.failure_code,
+            "failure_reason": FAILURE_LABELS.get(t.failure_code, t.failure_code),
             "retry_count": t.retry_count,
             "timestamp": t.timestamp
         } for t in txs]
@@ -245,18 +270,21 @@ def load_evaluation_data():
         
     return metrics_json, baseline_df, rules_df, agent_df
 
-# Title Header Banner
-st.markdown("""
-<div class="header-banner">
-    <span class="status-badge">SYSTEM ACTIVE • 1,000 CASE BENCHMARK</span>
-    <h1 class="header-title">RecoverAI Operations Control Room</h1>
-    <p class="header-subtitle">Autonomous Revenue Recovery System — Contextual AI Diagnosis &amp; ERV Financial Optimization</p>
-</div>
-""", unsafe_allow_html=True)
-
 # Load data
 db_df = load_db_data()
 metrics_json, baseline_df, rules_df, agent_df = load_evaluation_data()
+
+# Dynamic single source of truth for benchmark dataset size
+canonical_count = metrics_json["dataset_size"] if metrics_json else (len(agent_df) if agent_df is not None else len(db_df))
+
+# Title Header Banner
+st.markdown(f"""
+<div class="header-banner">
+    <span class="status-badge">SYSTEM ACTIVE • {canonical_count:,} CASE BENCHMARK</span>
+    <h1 class="header-title">AI Revenue Recovery Operations Control Room</h1>
+    <p class="header-subtitle">Bounded Autonomous Recovery — Contextual AI Diagnosis &amp; ERV Financial Optimization</p>
+</div>
+""", unsafe_allow_html=True)
 
 # -----------------
 # 1. TOP KPI BANNER
@@ -287,7 +315,7 @@ if agent_df is not None and baseline_df is not None and rules_df is not None:
         <div class="kpi-card">
             <div class="kpi-title">Revenue at Risk</div>
             <div class="kpi-value">₹{rev_at_risk/1e5:,.2f}L</div>
-            <div class="kpi-sub text-indigo">1,000 Failed Cases</div>
+            <div class="kpi-sub text-indigo">{canonical_count:,} Failed Transactions</div>
         </div>
         """, unsafe_allow_html=True)
     with col2:
@@ -328,7 +356,7 @@ else:
 st.markdown("<br>", unsafe_allow_html=True)
 
 # -----------------
-# 2. COMPARISONS & CHARTS
+# 2. COMPARISONS & CHARTS WITH HUMAN-READABLE LABELS
 # -----------------
 if agent_df is not None and baseline_df is not None and rules_df is not None:
     col_chart1, col_chart2 = st.columns(2)
@@ -336,7 +364,7 @@ if agent_df is not None and baseline_df is not None and rules_df is not None:
     with col_chart1:
         st.markdown("#### Financial Recovery Comparison (Gross vs Net INR)")
         comparison_df = pd.DataFrame({
-            "Workflow Strategy": ["Baseline (Retry-Once)", "Rules-Only (Multi-step)", "RecoverAI (AI-Optimized)"],
+            "Workflow Strategy": ["Baseline (Retry-Once)", "Rules-Only (Static)", "RecoverAI (AI-Optimized)"],
             "Gross Recovered (₹)": [baseline_rec, rules_rec, agent_rec],
             "Net Recovered (₹)": [base_net, rules_net, agent_net]
         }).set_index("Workflow Strategy")
@@ -344,16 +372,18 @@ if agent_df is not None and baseline_df is not None and rules_df is not None:
         
     with col_chart2:
         st.markdown("#### RecoverAI Agent Action Distribution")
-        action_counts = agent_df["final_action"].value_counts().reset_index()
+        action_series = agent_df["final_action"].map(lambda a: ACTION_LABELS.get(a, a))
+        action_counts = action_series.value_counts().reset_index()
         action_counts.columns = ["Intervention Action", "Count"]
         st.bar_chart(action_counts.set_index("Intervention Action"))
 
     col_chart3, col_chart4 = st.columns(2)
     with col_chart3:
         st.markdown("#### Failure Reason Distribution")
-        fail_counts = agent_df["failure_code"].value_counts().reset_index()
-        fail_counts.columns = ["Failure Code", "Count"]
-        st.bar_chart(fail_counts.set_index("Failure Code"))
+        fail_series = agent_df["failure_code"].map(lambda f: FAILURE_LABELS.get(f, f))
+        fail_counts = fail_series.value_counts().reset_index()
+        fail_counts.columns = ["Failure Reason", "Count"]
+        st.bar_chart(fail_counts.set_index("Failure Reason"))
         
     with col_chart4:
         st.markdown("#### Safety Guardrail Policy Decisions")
@@ -378,12 +408,12 @@ with col_fun1:
             "2. Evaluated for Recovery",
             "3. Intervention Selected (AI+ERV)",
             "4. Successfully Recovered",
-            "5. Escalated to Ops Review"
+            "5. Escalated to Operations Queue"
         ],
         "Count": [
-            metrics_json["dataset_size"] if metrics_json else 1000,
-            metrics_json["dataset_size"] if metrics_json else 1000,
-            metrics_json["dataset_size"] if metrics_json else 1000,
+            canonical_count,
+            canonical_count,
+            canonical_count,
             metrics_json["recoverai_agent"]["transactions_recovered"] if metrics_json else len(agent_df[agent_df["status"] == "SUCCESS"]),
             metrics_json["recoverai_agent"]["escalated_cases"] if metrics_json else len(agent_df[agent_df["final_action"] == "escalate_to_human"])
         ]
@@ -414,7 +444,7 @@ st.markdown("---")
 # 4. SYSTEM PERFORMANCE & LATENCY ANALYSIS
 # -----------------
 st.markdown('<div class="section-header">System Latency &amp; Performance Analysis</div>', unsafe_allow_html=True)
-st.markdown("Inspect execution time metrics of each pipeline stage to analyze real-time gateway SLA compatibility.")
+st.markdown("Inspect execution time metrics of each pipeline stage measured in the benchmark environment.")
 
 db = SessionLocal()
 latencies = db.query(
@@ -445,12 +475,11 @@ if latencies:
         llm_stage = next((x for x in latencies if x[0] == "root_cause_analysis"), None)
         if llm_stage:
             st.info(
-                f"**Root Cause Diagnosis latency** averages **{llm_stage[1]:.2f} ms** per case. "
-                "The pipeline achieves sub-millisecond execution times for Risk Scoring and Policy Guardrails, "
-                "meeting enterprise payment gateway SLAs."
+                f"**Measured local pipeline stages remain sub-millisecond in the benchmark environment** for Risk Scoring and Policy Guardrails. "
+                f"Root Cause Diagnosis latency averages **{llm_stage[1]:.2f} ms** per case. External gateway and network latency are not included."
             )
         else:
-            st.info("Performance stats logged successfully.")
+            st.info("Measured local pipeline stages remain sub-millisecond in the benchmark environment. External gateway and network latency are not included.")
 else:
     st.info("No system latency metrics logged yet. Latencies are recorded during batch evaluation runs.")
 
@@ -465,23 +494,23 @@ st.markdown("Select a transaction to inspect the complete step-by-step decision 
 if not db_df.empty:
     col_f1, col_f2, col_f3 = st.columns(3)
     with col_f1:
-        status_filter = st.selectbox("Status", ["All", "FAILED", "SUCCESS"])
+        status_filter = st.selectbox("Recovery Status", ["All", "SUCCESS", "UNRECOVERED", "ESCALATED", "STOPPED"])
     with col_f2:
-        failure_filter = st.selectbox("Failure Code", ["All"] + list(db_df["failure_code"].dropna().unique()))
+        failure_filter = st.selectbox("Failure Reason", ["All"] + list(db_df["failure_reason"].dropna().unique()))
     with col_f3:
         search_tx = st.text_input("Search Transaction ID (e.g. TX00014)")
         
     filtered_df = db_df.copy()
     if status_filter != "All":
-        filtered_df = filtered_df[filtered_df["status"] == status_filter]
+        filtered_df = filtered_df[filtered_df["recovery_status"] == status_filter]
     if failure_filter != "All":
-        filtered_df = filtered_df[filtered_df["failure_code"] == failure_filter]
+        filtered_df = filtered_df[filtered_df["failure_reason"] == failure_filter]
     if search_tx:
         filtered_df = filtered_df[filtered_df["transaction_id"].str.contains(search_tx, case=False)]
         
     st.dataframe(filtered_df.head(100))
     
-    st.markdown("### AI Decision Trace for Selected Transaction")
+    st.markdown("### Decision Trace for Selected Transaction")
     selected_tx_id = st.text_input("Enter Transaction ID to inspect trace:", value=filtered_df.iloc[0]["transaction_id"] if not filtered_df.empty else "TX00014")
     
     if selected_tx_id:
@@ -492,26 +521,28 @@ if not db_df.empty:
             invoice = db.query(Invoice).filter(Invoice.customer_id == tx.customer_id).first()
             audits = db.query(AuditLog).filter(AuditLog.transaction_id == selected_tx_id).order_by(AuditLog.id.asc()).all()
             
+            # Calculate Risk Score dynamically
+            risk_info = calculate_risk_score(tx, customer, invoice)
+            
             c_details1, c_details2, c_details3 = st.columns(3)
             with c_details1:
-                st.markdown(f"**Transaction ID**: `{tx.transaction_id}`  \n**Amount**: ₹{tx.amount:,.2f}  \n**Status**: `{tx.status}`  \n**Failure Code**: `{tx.failure_code}`")
+                st.markdown(f"**Transaction ID**: `{tx.transaction_id}`  \n**Amount**: ₹{tx.amount:,.2f}  \n**Initial Payment Status**: `<span style='color:#F87171;'>FAILED</span>`  \n**Recovery Status**: `{getattr(tx, 'recovery_status', 'UNRECOVERED')}`  \n**Recovered Amount**: ₹{getattr(tx, 'recovered_amount', 0.0):,.2f}  \n**Failure Reason**: `{FAILURE_LABELS.get(tx.failure_code, tx.failure_code)}`", unsafe_allow_html=True)
             with c_details2:
                 if customer:
                     st.markdown(f"**Customer ID**: `{customer.customer_id}`  \n**Type**: `{customer.customer_type}`  \n**Success Rate**: `{customer.previous_payment_success_rate:.2f}`  \n**Preference**: `{customer.contact_preference}`  \n**Risk Flag**: `{customer.risk_flag}`")
                 else:
                     st.markdown("*No customer profile found*")
             with c_details3:
+                st.markdown(f"**Risk Score**: `{risk_info['risk_score']} / 100`  \n**Risk Level**: `{risk_info['risk_level']}`")
                 if invoice:
-                    st.markdown(f"**Invoice ID**: `{invoice.invoice_id}`  \n**Amount Due**: ₹{invoice.amount_due:,.2f}  \n**Days Overdue**: `{invoice.days_overdue}`  \n**Promise to Pay**: `{invoice.promise_to_pay}`")
-                else:
-                    st.markdown("*No outstanding invoices*")
+                    st.markdown(f"**Invoice ID**: `{invoice.invoice_id}`  \n**Amount Due**: ₹{invoice.amount_due:,.2f}  \n**Days Overdue**: `{invoice.days_overdue}`")
             
             st.markdown("---")
-            ervs = calculate_ervs(tx.amount, tx.failure_code)
+            ervs = calculate_ervs(tx.amount, tx.failure_code, success_rate=customer.previous_payment_success_rate if customer else 0.85, ltv=customer.lifetime_value if customer else 0.0)
             erv_rows = []
             for action, metrics in ervs.items():
                 erv_rows.append({
-                    "Intervention Candidate": action,
+                    "Intervention Candidate": ACTION_LABELS.get(action, action),
                     "Success Probability": f"{metrics['probability']*100:.0f}%",
                     "Operational Cost": f"₹{metrics['cost']:.1f}",
                     "Expected Net Recovery": f"₹{metrics['expected_net']:,.2f}"
@@ -526,19 +557,19 @@ if not db_df.empty:
 
             if rc_audit:
                 st.markdown("#### AI Diagnosed Cause & Selected Intervention")
-                st.info(f"**Selected Action**: `{rc_audit.agent_action}`  \n\n**Reasoning**: {rc_audit.reason}")
+                st.info(f"**Selected Action**: `{ACTION_LABELS.get(rc_audit.agent_action, rc_audit.agent_action)}`  \n\n**Reasoning**: {rc_audit.reason}")
                 st.markdown("---")
 
-            st.markdown("#### Immutable Audit Trail Timeline")
+            st.markdown("#### Transaction Audit Trail")
             if audits:
                 audit_records = []
                 for a in audits:
                     audit_records.append({
                         "Timestamp": a.timestamp,
-                        "Stage": a.stage,
-                        "Action Recommended": a.agent_action or "None",
+                        "Stage": a.stage.replace("_", " ").title(),
+                        "Action Recommended": ACTION_LABELS.get(a.agent_action, a.agent_action or "None"),
                         "Policy Gate": a.policy_result or "None",
-                        "Execution Tool Status": a.tool_result or "None",
+                        "Execution Outcome": a.tool_result or "None",
                         "Recovered (₹)": a.amount_recovered,
                         "Stage Logs & Reasoning": a.reason
                     })
