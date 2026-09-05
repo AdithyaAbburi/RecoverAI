@@ -8,26 +8,26 @@ RecoverAI is an AI-powered revenue recovery system designed for enterprise payme
 
 ## Executive Summary & Benchmark Metrics
 
-RecoverAI was evaluated on a canonical benchmark of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the single source of truth exported to `data/evaluation/evaluation_results.json`:
+RecoverAI was evaluated on a canonical benchmark of 1,000 synthetic transaction failures under fixed random seeds (`seed=42`). All metrics below represent the single source of truth exported to `data/evaluation/evaluation_results.json` and rendered across the Streamlit Operations Control Room:
 
 | Metric | Naive Baseline (Retry-Once) | Rules-Only (Static Mapping) | RecoverAI Agent (AI-Optimized) |
 | :--- | :--- | :--- | :--- |
 | **Total Transactions Evaluated** | 1,000 | 1,000 | 1,000 |
 | **Transactions Successfully Recovered** | 321 / 1,000 | 515 / 1,000 | **661 / 1,000** |
 | **Transaction Recovery Rate** | 32.1% | 51.5% | **66.1%** |
-| **Revenue at Risk** | INR 14,648,500.39 | INR 14,648,500.39 | INR 14,648,500.39 |
-| **Gross Revenue Recovered** | INR 4,292,057.07 | INR 6,815,233.05 | **INR 8,647,258.31** |
+| **Revenue at Risk** | INR 14,648,500.39 (₹146.49L) | INR 14,648,500.39 (₹146.49L) | INR 14,648,500.39 (₹146.49L) |
+| **Gross Revenue Recovered** | INR 4,292,057.07 (₹42.92L) | INR 6,815,233.05 (₹68.15L) | **INR 8,647,258.31 (₹86.47L)** |
 | **Revenue Recovery Rate** | 29.30% | 46.53% | **59.03%** |
-| **Recovery Operational Cost** | INR 839.00 | INR 24,772.00 | INR 34,795.00 |
-| **Net Revenue Recovered** | INR 4,291,218.07 | INR 6,790,461.05 | **INR 8,612,463.31** |
-| **Financial Net Uplift (vs Baseline)** | — | +17.22% | **+29.73% (+INR 4,355,201.24)** |
-| **Financial Net Uplift (vs Rules-Only)**| — | — | **+12.51% (+INR 1,832,025.26)** |
+| **Recovery Operational Cost** | INR 839.00 (₹0.01L) | INR 24,772.00 (₹0.25L) | INR 34,795.00 (₹0.35L) |
+| **Net Revenue Recovered** | INR 4,291,218.07 (₹42.91L) | INR 6,790,461.05 (₹67.90L) | **INR 8,612,463.31 (₹86.12L)** |
+| **Financial Net Uplift (vs Baseline)** | — | +17.22% (+INR 2,499,242.98) | **+29.73% (+INR 4,355,201.24 / +₹43.55L)** |
+| **Financial Net Uplift (vs Rules-Only)**| — | — | **+12.51% (+INR 1,832,025.26 / +₹18.32L)** |
 | **Average Attempts per Transaction** | 0.84 | 1.35 | 1.53 |
 | **Escalated Cases (Ops Queue)** | 0 (No escalation) | 242 (24.2%) | 339 (33.9%) |
 | **Policy Violation Rate** | 0.0% | 0.0% | **0.0% (100% Compliant)** |
 | **Stopping Rule Compliance** | 100.0% | 100.0% | **100.0% (MAX_ATTEMPTS=2 Enforced)** |
 
-*Note: Transaction recovery rate measures count of resolved transactions, while revenue recovery rate measures financial value recovered from total revenue at risk.*
+*Note: Transaction recovery rate measures count of resolved transactions, while revenue recovery rate measures financial value recovered from total revenue at risk. Dashboard KPI cards display values formatted in Lakhs (₹L) for executive control room view.*
 
 ---
 
